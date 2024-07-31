@@ -1,7 +1,7 @@
 from .user import User
 from .user import Role
 from .member import Member, City, Gender
-
+from database.db_connection import db_connection
 
 class Consultant(User):
     def __init__(self, first_name: str, last_name: str, username: str, password: str):
