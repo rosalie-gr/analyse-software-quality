@@ -1,0 +1,7 @@
+
+INPUT HANDLING
+
+- escape metachars.
+- domains 
+- sql injection/shell injection
+- 

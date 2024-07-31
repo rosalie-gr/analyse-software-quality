@@ -1,0 +1,8 @@
+Hier komen alle functies die niet een aparte class of folder hebben
+
+bijv
+
+
+password_funcs.py - met functies als password masking enz
+
+ID_funcs - voor de ids enz je snapt het wel lol
