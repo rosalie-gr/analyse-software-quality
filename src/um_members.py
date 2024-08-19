@@ -3,6 +3,7 @@ import models.user
 import bcrypt
 import re
 from database.db_connection import db_connection
+import validation.input_validations, validation.login_validations
 from backup_system.backup_system import create_backup, restore_backup, list_backups, get_latest_backup
 
 database.db_setup.db_setup("um.db")
@@ -42,6 +43,78 @@ def display_menu(user_role):
               "[0] Logout\n"
               "[E] Exit the System\n")
 
+def handle_choice(user, choice):
+    user_role = user.role
+
+    if user_role == models.user.Role.SUPER:
+        super_admin_actions(user, choice)
+    elif user_role == models.user.Role.SYSTEM:
+        system_admin_actions(user, choice)
+    elif user_role == models.user.Role.CONSULT:
+        consultant_actions(user, choice)
+
+def super_admin_actions(user, choice):
+     match choice:
+                case '1':
+                    view_users(user)
+                case '2':
+                    manage_admins(user)
+                case '3':
+                    manage_consultants(user)
+                case '4':
+                    manage_members(user)
+                case '5':
+                    search_member(user)
+                case '6':
+                    backup_system(user)
+                case '7':
+                    restore_system(user)
+                case '8':
+                    view_logs(user)
+                case '0':
+                    print("Logging out")
+                    # Handle logout logic
+                case 'E':
+                    Logger.log_activity(user.username, "Exited the system", "System exited", False)
+                    print("Exiting the system")
+                    # Handle exit logic
+
+def system_admin_actions(user, choice):
+     match choice:
+                case '1':
+                    view_users(user)
+                case '2':
+                    manage_consultants(user)
+                case '3':
+                    manage_members(user)
+                case '4':
+                    search_member(user)
+                case '5':
+                    backup_system(user)
+                case '6':
+                    restore_system(user)
+                case '7':
+                    view_logs(user)
+                case '0':
+                    print("Logging out")
+                    # Handle logout logic
+                case 'E':
+                    print("Exiting the system")
+def consultant_actions(user, choice):
+        match choice:
+                    case '1':
+                        add_member(user)
+                    case '2':
+                        update_member(user)
+                    case '3':
+                        search_member(user)
+                    case '4':
+                        update_password(user)
+                    case '0':
+                        print("Logging out")
+                        # Handle logout logic
+                    case 'E':
+                        print("Exiting the system")
 
 def main():
     #encrypt and set up the database
@@ -51,7 +124,7 @@ def main():
         username = input("Enter your username: ")
         password = input("Enter your password: ")
         user = models.user.User(username, password)
-        if user.authenticate_user():
+        if validation.authenticate_user(username, password):
             user_role = user.role()
             return user_role
         else:

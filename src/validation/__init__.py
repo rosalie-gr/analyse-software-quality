@@ -1,4 +1,4 @@
-from input_validations import (
+from .input_validations import (
     get_valid_input, 
     get_valid_sup_password, 
     prompt_password, 
@@ -12,4 +12,8 @@ from input_validations import (
     phone_check, 
     search_key_check, 
     length_check
+)
+from .login_validations import (
+    check_password, 
+    authenticate_user
 )
