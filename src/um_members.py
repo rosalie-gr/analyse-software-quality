@@ -4,7 +4,8 @@ import bcrypt
 import re
 from database.db_connection import db_connection
 import validation.input_validations, validation.login_validations
-from backup_system.backup_system import create_backup, restore_backup, list_backups, get_latest_backup
+from helpers import menu_helpers
+from backup_system import backup_system
 
 database.db_setup.db_setup("um.db")
 import models.user
@@ -58,17 +59,18 @@ def super_admin_actions(user, choice):
                 case '1':
                     view_users(user)
                 case '2':
-                    manage_admins(user)
+                    menu_helpers.manage_admins(user)
                 case '3':
-                    manage_consultants(user)
+                    menu_helpers.manage_consultants(user)
                 case '4':
-                    manage_members(user)
-                case '5':
-                    search_member(user)
+                    menu_helpers.manage_members(user)
+                # case '5':
+                #     search_member(user)
                 case '6':
-                    backup_system(user)
+                    backup_system.create_backup(user)
                 case '7':
-                    restore_system(user)
+                    #this might need to be updated to list all backups first and then ask for the backup to restore, also show latest backup
+                    backup_system.restore_backup(user)
                 case '8':
                     view_logs(user)
                 case '0':
@@ -84,15 +86,16 @@ def system_admin_actions(user, choice):
                 case '1':
                     view_users(user)
                 case '2':
-                    manage_consultants(user)
+                    menu_helpers.manage_consultants(user)
                 case '3':
-                    manage_members(user)
-                case '4':
-                    search_member(user)
+                    menu_helpers.manage_members(user)
+                # case '4':
+                #     search_member(user)
                 case '5':
-                    backup_system(user)
+                    backup_system.create_backup(user)
                 case '6':
-                    restore_system(user)
+                    #this might need to be updated to list all backups first and then ask for the backup to restore, also show latest backup
+                    backup_system.restore_backup(user)
                 case '7':
                     view_logs(user)
                 case '0':
