@@ -12,7 +12,7 @@ import models.user
 
 # displays the main menu based on the user's role
 def display_menu(user_role):
-    if user_role == models.user.Role.SUPER:
+    if user_role == 2: #models.user.Role.SUPER:
         print("\n[1] View Users\n"
               "[2] Manage Admins\n"
               "[3] Manage Consultants\n"
@@ -24,7 +24,7 @@ def display_menu(user_role):
               "[0] Logout\n"
               "[E] Exit the System\n")
 
-    elif user_role == models.user.Role.SYSTEM:
+    elif user_role == 1: #models.user.Role.SYSTEM:
         print("\n[1] View Users\n"
               "[2] Manage Consultants\n"
               "[3] Manage Members\n"
@@ -36,7 +36,7 @@ def display_menu(user_role):
               "[0] Logout\n"
               "[E] Exit the System\n")
 
-    elif user_role == models.user.Role.CONSULT:
+    elif user_role == 0: #models.user.Role.CONSULT:
         print("\n[1] Add Member\n"
               "[2] Update Member\n"
               "[3] Search Member\n"
@@ -45,13 +45,13 @@ def display_menu(user_role):
               "[E] Exit the System\n")
 
 def handle_choice(user, choice):
-    user_role = user.role
+    user_role = user[5]
 
-    if user_role == models.user.Role.SUPER:
+    if user_role ==  2:#models.user.Role.SUPER:
         super_admin_actions(user, choice)
-    elif user_role == models.user.Role.SYSTEM:
+    elif user_role == 1: #models.user.Role.SYSTEM:
         system_admin_actions(user, choice)
-    elif user_role == models.user.Role.CONSULT:
+    elif user_role == 0: # models.user.Role.CONSULT:
         consultant_actions(user, choice)
 
 def super_admin_actions(user, choice):
@@ -59,6 +59,7 @@ def super_admin_actions(user, choice):
                 case '1':
                     view_users(user)
                 case '2':
+                    print( "yippie")
                     menu_helpers.manage_admins(user)
                 case '3':
                     menu_helpers.manage_consultants(user)
@@ -126,12 +127,25 @@ def main():
     while True:
         username = input("Enter your username: ")
         password = input("Enter your password: ")
-        user = models.user.User(username, password)
-        if validation.authenticate_user(username, password):
-            user_role = user.role()
-            return user_role
+        # user = models.user.User(username, password)
+        user = validation.authenticate_user(username, password)
+        if user:
+            print(f"\nWelcome, {user[1]} {user[2]}!")
+            while True:
+                # display the correct menu for the type of user
+                display_menu(user[5])
+
+                choice = input("Choose an option: ").capitalize()
+                if choice == '0':
+                    break
+                handle_choice(user, choice)
+                if choice == 'E':
+                    # log hehe
+                    break
+                # if choice != '0' and choice != 'E':
+                #     print("Invalid choice. Please try again.")
         else:
-            print("Invalid username or password. Please try again.")
+            print("Invalid username or password")
 
 
 

@@ -17,7 +17,7 @@ def manage_consultants(user):
         case '4':
             delete_consultant()
         case '5':
-            handle_choice(user, '0')
+            return None
         case _:
             print("Invalid choice. Please try again.")
             manage_consultants(user)
@@ -41,7 +41,7 @@ def manage_members(user):
         case '4':
             delete_member()
         case '5':
-            handle_choice(user, '0')
+            return None
         case _:
             print("Invalid choice. Please try again.")
             manage_members(user)
@@ -65,7 +65,7 @@ def manage_admins(user):
         case '4':
             delete_system_admin()
         case '5':
-            handle_choice(user, '0')
+            return None
         case _:
             print("Invalid choice. Please try again.")
             manage_admins(user)

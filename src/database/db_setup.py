@@ -1,9 +1,9 @@
 from sqlite3 import Error
 from .db_connection import db_connection
 #import models.system_admin
-#import models.super_admin
+import models.super_admin
 #import models.consultant
-#import models.member
+import models.member
 import os
 
 class db_setup:
@@ -12,7 +12,7 @@ class db_setup:
         self.db = db_connection(db_file)
         # self.delete_existing_db()
         self.create_tables()
-        # self.seed_users()
+        self.seed_users()
         # self.seed_members()
 
     def delete_existing_db(self):
@@ -68,3 +68,27 @@ class db_setup:
         finally:
             cursor.close()
             self.db.close_connection(db_conn)     
+    
+    
+    def seed_users(self):
+        super_admin = models.super_admin.SuperAdmin()
+
+        db_conn = self.db.create_connection()
+        cursor = db_conn.cursor()
+
+        cursor.execute("SELECT COUNT(*) FROM users WHERE username = ?", (super_admin.username,))
+        count = cursor.fetchone()[0]
+
+        if count == 0:
+            cursor.execute(
+                "INSERT INTO users (first_name, last_name, username, password, role) VALUES (?, ?, ?, ?, ?)",
+                ( super_admin.first_name,  super_admin.last_name,  super_admin.username,  super_admin.password,  super_admin.role.value)
+            )
+            db_conn.commit()
+            print(f"User { super_admin.username} added to the database.")
+        else:
+            print(f"User { super_admin.username} already exists in the database.")
+
+        cursor.close()
+        self.db.close_connection(db_conn)     
+
