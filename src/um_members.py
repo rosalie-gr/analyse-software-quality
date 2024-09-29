@@ -3,11 +3,12 @@ import models.user
 import bcrypt
 import re
 from database.db_connection import db_connection
-import validation.input_validations, validation.login_validations
-from helpers import menu_helpers
+from etc.input_validations import Validator as validation
+from etc.login_validations import check_password, authenticate_user
+from etc.menu_helpers import MenuManager
 from backup_system import backup_system
 
-database.db_setup.db_setup("um.db")
+database.db_setup.db_setup("src/um.db")
 import models.user
 
 # displays the main menu based on the user's role
@@ -60,7 +61,7 @@ def super_admin_actions(user, choice):
                     view_users(user)
                 case '2':
                     print( "yippie")
-                    menu_helpers.manage_admins(user)
+                    MenuManager.manage_admins(user)
                 case '3':
                     menu_helpers.manage_consultants(user)
                 case '4':
@@ -122,13 +123,13 @@ def consultant_actions(user, choice):
 
 def main():
     #encrypt and set up the database
-    db = db_connection("um.db")
+    db = db_connection("src/um.db")
     #ask user for username and password, check if match in database
     while True:
         username = input("Enter your username: ")
         password = input("Enter your password: ")
         # user = models.user.User(username, password)
-        user = validation.authenticate_user(username, password)
+        user = authenticate_user(username, password)
         if user:
             print(f"\nWelcome, {user[1]} {user[2]}!")
             while True:

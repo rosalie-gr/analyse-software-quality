@@ -1,5 +1,5 @@
 import re
-import validation.input_validations as v
+import etc.input_validations as v
 from models.member import Gender, City  
 
 # Functions to create new users and members

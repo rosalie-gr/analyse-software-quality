@@ -1,6 +1,6 @@
 import re
 import bcrypt
-from validation import input_validations as v
+from etc import input_validations as v
 from models.member import Gender, City, Member  
 
 # Function to update user/member details

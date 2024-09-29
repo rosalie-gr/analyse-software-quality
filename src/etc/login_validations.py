@@ -1,11 +1,11 @@
-import bcrypt
-import re
 from database.db_connection import db_connection
-from helpers import database_encryption
+from etc.encryption.database_encryption import database_encryption
+import bcrypt
+
 
 
 def check_password(username):
-    db = db_connection("um.db")
+    db = db_connection("src/um.db")
     conn = db.create_connection()
     cursor = conn.cursor()
 
@@ -20,7 +20,7 @@ def check_password(username):
 
 
 def authenticate_user(username, password):
-    db = db_connection("um.db")
+    db = db_connection("src/um.db")
     conn = db.create_connection()
     cursor = conn.cursor()
     if username != 'super_admin':
@@ -29,7 +29,10 @@ def authenticate_user(username, password):
     cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
     user_record = cursor.fetchone()
     if user_record:
-        return user_record
+        # Check if the password matches
+        stored_password = user_record[4]
+        if bcrypt.checkpw(password.encode('utf-8'), stored_password.encode('utf-8')):
+            return user_record
     cursor.close()
     conn.close()
     # Return None if authentication fails

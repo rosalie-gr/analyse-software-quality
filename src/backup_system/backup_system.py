@@ -6,7 +6,7 @@ from datetime import datetime
 # Ensure these paths are correct relative to the script location
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # DATABASE_FILE should be one level above BASE_DIR
-DATABASE_FILE = os.path.join(os.path.dirname(BASE_DIR), 'um.db')
+DATABASE_FILE = os.path.join(os.path.dirname(BASE_DIR), 'src/um.db')
 LOG_FILES_DIR = os.path.join(BASE_DIR, 'logs')
 BACKUP_DIR = os.path.join(BASE_DIR, 'backups/backups')
 
