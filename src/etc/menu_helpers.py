@@ -1,3 +1,6 @@
+from models.super_admin import SuperAdmin, SystemAdmin
+from models.consultant import Consultant, Member
+
 class MenuManager:
     def manage_consultants(user):
         print("\nManage Consultants\n"
@@ -23,7 +26,7 @@ class MenuManager:
                 print("Invalid choice. Please try again.")
                 manage_consultants(user)
 
-    def manage_members(  user):
+    def manage_members(user):
         print("\nManage Members\n"
               "[1] Add Member\n"
               "[2] Update Member\n"
@@ -34,7 +37,7 @@ class MenuManager:
         choice = input("Choose an option: ")
         match choice:
             case '1':
-                make_member()
+                Consultant.add_member(user)
             case '2':
                 update_member()
             case '3':

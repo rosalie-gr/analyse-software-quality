@@ -63,9 +63,9 @@ def super_admin_actions(user, choice):
                     print( "yippie")
                     MenuManager.manage_admins(user)
                 case '3':
-                    menu_helpers.manage_consultants(user)
+                    MenuManager.manage_consultants(user)
                 case '4':
-                    menu_helpers.manage_members(user)
+                    MenuManager.manage_members(user)
                 # case '5':
                 #     search_member(user)
                 case '6':
@@ -88,9 +88,9 @@ def system_admin_actions(user, choice):
                 case '1':
                     view_users(user)
                 case '2':
-                    menu_helpers.manage_consultants(user)
+                    MenuManager.manage_consultants(user)
                 case '3':
-                    menu_helpers.manage_members(user)
+                    MenuManager.manage_members(user)
                 # case '4':
                 #     search_member(user)
                 case '5':
