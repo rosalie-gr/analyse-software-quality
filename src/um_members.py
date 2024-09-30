@@ -7,6 +7,10 @@ from etc.input_validations import Validator as validation
 from etc.login_validations import check_password, authenticate_user
 from etc.menu_helpers import MenuManager
 from backup_system import backup_system
+from models.consultant import Consultant
+from models.super_admin import SuperAdmin
+from models.system_admin import SystemAdmin
+from etc.encryption.database_encryption import database_encryption
 
 database.db_setup.db_setup("src/um.db")
 import models.user
@@ -108,7 +112,7 @@ def system_admin_actions(user, choice):
 def consultant_actions(user, choice):
         match choice:
                     case '1':
-                        add_member(user)
+                        Consultant.add_member(user)
                     case '2':
                         update_member(user)
                     case '3':
@@ -123,6 +127,7 @@ def consultant_actions(user, choice):
 
 def main():
     #encrypt and set up the database
+    database_encryption()
     db = db_connection("src/um.db")
     #ask user for username and password, check if match in database
     while True:

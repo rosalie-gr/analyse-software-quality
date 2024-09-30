@@ -13,7 +13,7 @@ class MenuManager:
         choice = input("Choose an option: ")
         match choice:
             case '1':
-                make_consultant()
+                SystemAdmin.add_consultant(user)
             case '2':
                 update_consultant()
             case '3':
@@ -60,7 +60,7 @@ class MenuManager:
         choice = input("Choose an option: ")
         match choice:
             case '1':
-                make_sys_admin()
+                SuperAdmin.add_system_admin(user)
             case '2':
                 update_system_admin()
             case '3':
