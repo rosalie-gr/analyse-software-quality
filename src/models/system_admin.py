@@ -11,7 +11,37 @@ class SystemAdmin(Consultant):
         self.role = Role.SYSTEM
 
     def list_users(self):
-        pass    
+        db = db_connection("src/um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT id, first_name, last_name, username, role FROM users")
+        users = cursor.fetchall()
+        if len(users) == 1 or len(users) == 0:
+            return False
+        user_list = []
+        for user in users:
+            user_id, first_name, last_name, username, role = user
+            if  username != 'super_admin':
+                first_name = database_encryption.decrypt_data(first_name)
+                last_name = database_encryption.decrypt_data(last_name)
+                username = database_encryption.decrypt_data(username)
+                role = role
+                
+                user_details = {
+                    "ID": user_id,
+                    "First Name": first_name,
+                    "Last Name": last_name,
+                    "Username": username,
+                    "Role": role
+                }
+                user_list.append(user_details)
+        
+        cursor.close()
+        db.close_connection(conn)
+        
+        return user_list  
 
     def add_consultant(self):
         new_consultant = Make_users.make_Consultant()
@@ -35,6 +65,7 @@ class SystemAdmin(Consultant):
         db.close_connection(conn)
 
     def modify_consultant_info(self, consultant_id: str, field_name: str, new_value: str):
+        #updated = Update_users.update_consultant(consultant_id, field_name, new_value)
         pass
 
     def delete_consultant(self, consultant_id):

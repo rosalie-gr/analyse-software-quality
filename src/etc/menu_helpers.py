@@ -15,7 +15,10 @@ class MenuManager:
             case '1':
                 SystemAdmin.add_consultant(user)
             case '2':
-                update_consultant()
+                print("choice which consultant you want to update")
+                user_list = SystemAdmin.list_users(user)
+                MenuManager.print_user_list_role(user_list, 0)
+                # update_consultant()
             case '3':
                 reset_consultant_password()
             case '4':
@@ -62,7 +65,10 @@ class MenuManager:
             case '1':
                 SuperAdmin.add_system_admin(user)
             case '2':
-                update_system_admin()
+                print("choice which admin you want to update")
+                user_list = SystemAdmin.list_users(user)
+                MenuManager.print_user_list_role(user_list, 1)
+                # update_system_admin()
             case '3':
                 reset_system_admin_password()
             case '4':
@@ -73,3 +79,18 @@ class MenuManager:
                 print("Invalid choice. Please try again.")
                 manage_admins(user)
 
+    # generic print, shows all users
+    def print_user_list(user_list):
+        if user_list:
+            for user in user_list :
+                print(f"ID: {user['ID']} Username: {user['Username']}, Role: {user['Role']}")
+        else:
+            return False
+    # print users based on role
+    def print_user_list_role(user_list, user_role):
+        if user_list:
+            for user in user_list :
+                if user['Role'] == user_role:
+                    print(f"ID: {user['ID']} Username: {user['Username']}, Role: {user['Role']}")
+        else:
+            return False

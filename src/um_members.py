@@ -62,7 +62,9 @@ def handle_choice(user, choice):
 def super_admin_actions(user, choice):
      match choice:
                 case '1':
-                    view_users(user)
+                    # view list of users
+                    user_list = SystemAdmin.list_users(user)
+                    MenuManager.print_user_list(user_list)
                 case '2':
                     print( "yippie")
                     MenuManager.manage_admins(user)
@@ -90,7 +92,9 @@ def super_admin_actions(user, choice):
 def system_admin_actions(user, choice):
      match choice:
                 case '1':
-                    view_users(user)
+                    # view list of users
+                    user_list = SystemAdmin.list_users(user)
+                    MenuManager.print_user_list(user_list)
                 case '2':
                     MenuManager.manage_consultants(user)
                 case '3':

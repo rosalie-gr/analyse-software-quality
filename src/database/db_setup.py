@@ -10,7 +10,7 @@ class db_setup:
     def __init__(self, db_file):
         self.db_file = db_file
         self.db = db_connection(db_file)
-        self.delete_existing_db()
+        # self.delete_existing_db()
         self.create_tables()
         self.seed_users()
         # self.seed_members()
