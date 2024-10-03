@@ -21,11 +21,10 @@ def display_menu(user_role):
         print("\n[1] View Users\n"
               "[2] Manage Admins\n"
               "[3] Manage Consultants\n"
-              "[4] Manage Members\n"
-              "[5] Search Member\n"
-              "[6] Backup System\n"
-              "[7] Restore System\n"
-              "[8] View Logs\n"
+              "[4] Search Member\n"
+              "[5] Backup System\n"
+              "[6] Restore System\n"
+              "[7] View Logs\n"
               "[0] Logout\n"
               "[E] Exit the System\n")
 
@@ -33,11 +32,10 @@ def display_menu(user_role):
         print("\n[1] View Users\n"
               "[2] Manage Consultants\n"
               "[3] Manage Members\n"
-              "[4] Search Member\n"
-              "[5] Backup System\n"
-              "[6] Restore System\n"
-              "[7] View Logs\n"
-              "[8] Update Password\n"
+              "[4] Backup System\n"
+              "[5] Restore System\n"
+              "[6] View Logs\n"
+              "[7] Update Password\n"
               "[0] Logout\n"
               "[E] Exit the System\n")
 
@@ -72,14 +70,12 @@ def super_admin_actions(user, choice):
                     MenuManager.manage_consultants(user)
                 case '4':
                     MenuManager.manage_members(user)
-                # case '5':
-                #     search_member(user)
-                case '6':
+                case '5':
                     backup_system.create_backup(user)
-                case '7':
+                case '6':
                     #this might need to be updated to list all backups first and then ask for the backup to restore, also show latest backup
                     backup_system.restore_backup(user)
-                case '8':
+                case '7':
                     view_logs(user)
                 case '0':
                     print("Logging out")
@@ -99,15 +95,15 @@ def system_admin_actions(user, choice):
                     MenuManager.manage_consultants(user)
                 case '3':
                     MenuManager.manage_members(user)
-                # case '4':
-                #     search_member(user)
-                case '5':
+                case '4':
                     backup_system.create_backup(user)
-                case '6':
+                case '5':
                     #this might need to be updated to list all backups first and then ask for the backup to restore, also show latest backup
                     backup_system.restore_backup(user)
-                case '7':
+                case '6':
                     view_logs(user)
+                case '7':
+                    update_password(user)
                 case '0':
                     print("Logging out")
                     # Handle logout logic
