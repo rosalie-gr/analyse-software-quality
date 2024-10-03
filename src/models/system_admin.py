@@ -89,22 +89,22 @@ class SystemAdmin(Consultant):
         print(f"\nThe field {field_name} has been updated")
 
     def delete_consultant(self, consultant_id):
-        db = db_connection("um.db")
+        db = db_connection("src/um.db")
 
         conn = db.create_connection()
         cursor = conn.cursor()
 
 
-        cursor.execute("SELECT role FROM users WHERE id = ?", (system_admin_id,))
+        cursor.execute("SELECT role FROM users WHERE id = ?", (consultant_id,))
         result = cursor.fetchone()
 
-        if result and result[0] == Role.SYSTEM.value:
+        if result and result[0] == Role.CONSULT.value:
             # User is a system admin, proceed to delete
-            cursor.execute("DELETE FROM users WHERE id = ?", (system_admin_id,))
+            cursor.execute("DELETE FROM users WHERE id = ?", (consultant_id,))
             conn.commit()
-            print(f"\nConsultant with ID '{system_admin_id}' deleted successfully.")
+            print(f"\nConsultant with ID '{consultant_id}' deleted successfully.")
         else:
-            print(f"\nUser with ID '{system_admin_id}' is not a system admin or does not exist.")
+            print(f"\nUser with ID '{consultant_id}' is not a system admin or does not exist.")
             cursor.close()
             db.close_connection(conn)
 

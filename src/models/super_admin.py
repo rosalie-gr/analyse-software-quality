@@ -52,7 +52,7 @@ class SuperAdmin(SystemAdmin):
         print(f"\nThe field [{field_name}] has been updated")
 
     def delete_system_admin(self, system_admin_id):
-        db = db_connection("um.db")
+        db = db_connection("src/um.db")
 
         conn = db.create_connection()
         cursor = conn.cursor()

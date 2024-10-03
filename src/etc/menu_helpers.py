@@ -44,7 +44,18 @@ class MenuManager:
             case '3':
                 reset_consultant_password()
             case '4':
-                delete_consultant()
+                user_list = SystemAdmin.list_users(user)
+                for user in user_list:
+                    if user['Role'] == 0:
+                        print(f"ID: {user['ID']} Username: {user['Username']}, Role: {user['Role']}")
+                consultant_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
+                                                  v.number_check)
+                if consultant_id == '0':
+                    return
+                if consultant_id == False:
+                    print("Too many wrong attempts, going back to main menu")
+                    return
+                SystemAdmin.delete_consultant(user, consultant_id)
             case '5':
                 return None
             case _:
@@ -87,6 +98,8 @@ class MenuManager:
             case '1':
                 SuperAdmin.add_system_admin(user)
             case '2':
+                 # its a little messy, i tried to move it all to modify consult info but circular import wahwah
+                # for now its here, maybe it can be moved to updtae-users
                 print("choice which admin you want to update")
                 user_list = SystemAdmin.list_users(user)
                 MenuManager.print_user_list_role(user_list, 1)
@@ -113,7 +126,18 @@ class MenuManager:
             case '3':
                 reset_system_admin_password()
             case '4':
-                delete_system_admin()
+                user_list = SystemAdmin.list_users(user)
+                for user in user_list:
+                    if user['Role'] == 0:
+                        print(f"ID: {user['ID']} Username: {user['Username']}, Role: {user['Role']}")
+                sys_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
+                                                  v.number_check)
+                if sys_id == '0':
+                    return
+                if sys_id == False:
+                    print("Too many wrong attempts, going back to main menu")
+                    return
+                SuperAdmin.delete_system_admin(user, sys_id)
             case '5':
                 return None
             case _:
