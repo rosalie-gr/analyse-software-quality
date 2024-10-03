@@ -1,5 +1,7 @@
 from models.super_admin import SuperAdmin, SystemAdmin
-from models.consultant import Consultant, Member
+from models.consultant import Consultant, Member, User
+from etc.useractions.update_users import Update_users
+import etc.input_validations as v
 
 class MenuManager:
     def manage_consultants(user):
@@ -15,10 +17,30 @@ class MenuManager:
             case '1':
                 SystemAdmin.add_consultant(user)
             case '2':
+                # its a little messy, i tried to move it all to modify consult info but circular import wahwah
+                # for now its here, maybe it can be moved to updtae-users
                 print("choice which consultant you want to update")
                 user_list = SystemAdmin.list_users(user)
                 MenuManager.print_user_list_role(user_list, 0)
-                # update_consultant()
+                consultant_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
+                                                  v.number_check)
+                if consultant_id == '0':
+                    return
+                if consultant_id == False:
+                    print("Too many wrong attempts, going back to main menu")
+                    return
+                
+                # maybe still need to add a check if its a consultant
+                consultant = User.search_user(user, consultant_id)
+                print(consultant.first_name, consultant.last_name, consultant.username, consultant.password)
+
+                result = Update_users.update_consultant(consultant)
+                if result is None:
+                    print("Not a valid field. going back to main menu")
+                    return
+                field_name, new_value = result
+
+                SystemAdmin.modify_consultant_info(user, consultant_id, field_name, new_value)
             case '3':
                 reset_consultant_password()
             case '4':
@@ -68,7 +90,26 @@ class MenuManager:
                 print("choice which admin you want to update")
                 user_list = SystemAdmin.list_users(user)
                 MenuManager.print_user_list_role(user_list, 1)
-                # update_system_admin()
+                
+                sys_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
+                                        v.number_check)
+                if sys_id == '0':
+                    return
+                if sys_id == False:
+                    print("Too many wrong attempts, going back to main menu")
+                    return
+                
+                # maybe still need to add a check if its a system admin
+                sys =  User.search_user(user, sys_id)
+                print(sys.first_name, sys.last_name, sys.username, sys.password)
+
+                result = Update_users.update_consultant(sys)
+                if result is None:
+                    print("Not a valid field. going back to main menu")
+                    return
+                field_name, new_value = result
+
+                SuperAdmin.modify_system_admin_info(user, sys_id, field_name, new_value)
             case '3':
                 reset_system_admin_password()
             case '4':
@@ -83,7 +124,7 @@ class MenuManager:
     def print_user_list(user_list):
         if user_list:
             for user in user_list :
-                print(f"ID: {user['ID']} Username: {user['Username']}, Role: {user['Role']}")
+                print(f"ID: {user['ID']} Username: {user['Username']}, First Name: {user['First Name']}, Last Name: {user['Last Name']} Role: {user['Role']}")
         else:
             return False
     # print users based on role
@@ -91,6 +132,6 @@ class MenuManager:
         if user_list:
             for user in user_list :
                 if user['Role'] == user_role:
-                    print(f"ID: {user['ID']} Username: {user['Username']}, Role: {user['Role']}")
+                    print(f"ID: {user['ID']} Username: {user['Username']}, First Name: {user['First Name']}, Last Name: {user['Last Name']} Role: {user['Role']}")
         else:
             return False

@@ -1,5 +1,6 @@
 from enum import Enum
 from database.db_connection import db_connection
+from etc.encryption.database_encryption import database_encryption
 import etc.input_validations as v
 import bcrypt
 
@@ -52,3 +53,26 @@ class User:
     # Checks the input password against the stored password
     def check_password(self, password: str):
         return bcrypt.checkpw(password.encode(), self.password.encode())
+
+    def search_user(self, user_id):
+        db = db_connection("src/um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+
+        if (user_id.isnumeric()):
+            result = cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+
+        if (result):
+            decrypt_user = {
+                "ID": result[0],
+                "first_name": database_encryption.decrypt_data(result[1]),
+                "last_name": database_encryption.decrypt_data(result[2]),
+                "username": database_encryption.decrypt_data(result[3]),
+                "password": result[4],
+                "role": result[5]
+            }
+            user = User(decrypt_user["first_name"], decrypt_user["last_name"], decrypt_user["username"], decrypt_user["password"], decrypt_user["role"])
+            return user
+        else:
+            print("User not found")

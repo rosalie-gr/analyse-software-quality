@@ -41,8 +41,6 @@ class Consultant(User):
         conn.commit()
 
         # Get the ID of the last inserted address
-        # cursor.execute("SELECT last_insert_rowid()")
-        # address_id = cursor.fetchone()[0][6]
         address_id = cursor.lastrowid
 
         # Insert into members table

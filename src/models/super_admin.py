@@ -21,7 +21,11 @@ class SuperAdmin(SystemAdmin):
         cursor = conn.cursor()
 
         cursor.execute("INSERT INTO users (first_name, last_name, username, password, role) VALUES (?, ?, ?, ?, ?)", 
-                       (database_encryption.encrypt_data(new_sys_admin.first_name),database_encryption.encrypt_data(new_sys_admin.last_name), database_encryption.encrypt_data(new_sys_admin.username), new_sys_admin.password, Role.CONSULT.value))
+                       (database_encryption.encrypt_data(new_sys_admin.first_name),
+                        database_encryption.encrypt_data(new_sys_admin.last_name), 
+                        database_encryption.encrypt_data(new_sys_admin.username), 
+                        new_sys_admin.password, 
+                        Role.CONSULT.value))
         conn.commit()
         print("Consultant added")
 
@@ -30,7 +34,22 @@ class SuperAdmin(SystemAdmin):
 
 
     def modify_system_admin_info(self, system_admin_id: str, field_name: str, new_value: str):
-        pass
+        db = db_connection("um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+
+        query = f"UPDATE users SET {field_name} = ? WHERE id = ?"
+
+        # execute the UPDATE query
+        cursor.execute(query, (database_encryption.encrypt_data(new_value), system_admin_id))
+
+        conn.commit()
+
+        cursor.close()
+        db.close_connection(conn)        
+        
+        print(f"\nThe field [{field_name}] has been updated")
 
     def delete_system_admin(self, system_admin_id):
         pass

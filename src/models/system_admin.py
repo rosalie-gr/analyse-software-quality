@@ -57,7 +57,11 @@ class SystemAdmin(Consultant):
         cursor = conn.cursor()
 
         cursor.execute("INSERT INTO users (first_name, last_name, username, password, role) VALUES (?, ?, ?, ?, ?)", 
-                       (database_encryption.encrypt_data(new_consultant.first_name),database_encryption.encrypt_data(new_consultant.last_name), database_encryption.encrypt_data(new_consultant.username), new_consultant.password, Role.CONSULT.value))
+                       (database_encryption.encrypt_data(new_consultant.first_name),
+                        database_encryption.encrypt_data(new_consultant.last_name), 
+                        database_encryption.encrypt_data(new_consultant.username), 
+                        new_consultant.password, 
+                        Role.CONSULT.value))
         conn.commit()
         print("Consultant added")
 
@@ -65,8 +69,24 @@ class SystemAdmin(Consultant):
         db.close_connection(conn)
 
     def modify_consultant_info(self, consultant_id: str, field_name: str, new_value: str):
-        #updated = Update_users.update_consultant(consultant_id, field_name, new_value)
-        pass
+        db = db_connection("src/um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+ 
+        query = f"UPDATE users SET {field_name} = ? WHERE id = ?"
+
+        new_value = database_encryption.encrypt_data(new_value)
+        print(new_value)
+        # execute the UPDATE query
+        cursor.execute(query, (new_value, consultant_id))
+
+        conn.commit()
+
+        cursor.close()
+        db.close_connection(conn)        
+        
+        print(f"\nThe field {field_name} has been updated")
 
     def delete_consultant(self, consultant_id):
         pass
