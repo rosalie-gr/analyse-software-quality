@@ -48,7 +48,7 @@ class SystemAdmin(Consultant):
         if new_consultant == False:
             print("Consultant not added, going back to main menu")
             return
-        print(new_consultant[0], new_consultant[1], new_consultant[2], new_consultant[3])
+        print(new_consultant.first_name, new_consultant.last_name, new_consultant.username, new_consultant.password)
 
         # now we need to add it to the database and encrypt
         db = db_connection("src/um.db")
@@ -57,7 +57,7 @@ class SystemAdmin(Consultant):
         cursor = conn.cursor()
 
         cursor.execute("INSERT INTO users (first_name, last_name, username, password, role) VALUES (?, ?, ?, ?, ?)", 
-                       (database_encryption.encrypt_data(new_consultant[0]),database_encryption.encrypt_data(new_consultant[1]), database_encryption.encrypt_data(new_consultant[2]), new_consultant[3], Role.CONSULT.value))
+                       (database_encryption.encrypt_data(new_consultant.first_name),database_encryption.encrypt_data(new_consultant.last_name), database_encryption.encrypt_data(new_consultant.username), new_consultant.password, Role.CONSULT.value))
         conn.commit()
         print("Consultant added")
 

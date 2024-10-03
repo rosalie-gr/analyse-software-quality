@@ -85,7 +85,7 @@ def super_admin_actions(user, choice):
                     print("Logging out")
                     # Handle logout logic
                 case 'E':
-                    Logger.log_activity(user.username, "Exited the system", "System exited", False)
+                    # Logger.log_activity(user.username, "Exited the system", "System exited", False)
                     print("Exiting the system")
                     # Handle exit logic
 

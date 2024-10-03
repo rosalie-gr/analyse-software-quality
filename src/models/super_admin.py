@@ -21,7 +21,7 @@ class SuperAdmin(SystemAdmin):
         cursor = conn.cursor()
 
         cursor.execute("INSERT INTO users (first_name, last_name, username, password, role) VALUES (?, ?, ?, ?, ?)", 
-                       (database_encryption.encrypt_data(new_sys_admin[0]),database_encryption.encrypt_data(new_sys_admin[1]), database_encryption.encrypt_data(new_sys_admin[2]), new_sys_admin[3], Role.CONSULT.value))
+                       (database_encryption.encrypt_data(new_sys_admin.first_name),database_encryption.encrypt_data(new_sys_admin.last_name), database_encryption.encrypt_data(new_sys_admin.username), new_sys_admin.password, Role.CONSULT.value))
         conn.commit()
         print("Consultant added")
 

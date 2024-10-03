@@ -1,6 +1,7 @@
 import re
 import etc.input_validations as v
 from models.member import Gender, City  
+from models.user import User
 
 # Functions to create new users and members
 class Make_users:
@@ -56,7 +57,8 @@ class Make_users:
         password = v.get_valid_input("Password: ", v.validate_password)
         if not password: return False
 
-        return first_name, last_name, username, password
+        cons = User(first_name, last_name, username, password, 0)
+        return cons
 
     def make_Sys_Admin():
         print("Enter system admin details")
@@ -72,4 +74,5 @@ class Make_users:
         password = v.get_valid_input("Password: ", v.validate_password)
         if not password: return False
 
-        return first_name, last_name, username, password
+        sys = User(first_name, last_name, username, password, 1)
+        return sys
