@@ -44,7 +44,7 @@ class MenuManager:
             case '3':
                 reset_consultant_password()
             case '4':
-                user_list = SystemAdmin.list_users(user)
+                user_list = SystemAdmin.list_users()
                 for user in user_list:
                     if user['Role'] == 0:
                         print(f"ID: {user['ID']} Username: {user['Username']}, Role: {user['Role']}")

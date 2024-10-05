@@ -61,7 +61,7 @@ def super_admin_actions(user, choice):
      match choice:
                 case '1':
                     # view list of users
-                    user_list = SystemAdmin.list_users(user)
+                    user_list = SystemAdmin.list_users()
                     MenuManager.print_user_list(user_list)
                 case '2':
                     print( "yippie")
@@ -89,7 +89,7 @@ def system_admin_actions(user, choice):
      match choice:
                 case '1':
                     # view list of users
-                    user_list = SystemAdmin.list_users(user)
+                    user_list = SystemAdmin.list_users()
                     MenuManager.print_user_list(user_list)
                 case '2':
                     MenuManager.manage_consultants(user)
@@ -129,14 +129,20 @@ def main():
     #encrypt and set up the database
     database_encryption()
     db = db_connection("src/um.db")
+
     #ask user for username and password, check if match in database
     while True:
         username = input("Enter your username: ")
         password = input("Enter your password: ")
         # user = models.user.User(username, password)
         user = authenticate_user(username, password)
+
         if user:
-            print(f"\nWelcome, {user[1]} {user[2]}!")
+            if user[3] == 'super_admin':
+                 print(f"\nWelcome, {user[1]} {user[2]}")
+            else:
+                print(f"\nWelcome, {database_encryption.decrypt_data(user[1])} {database_encryption.decrypt_data(user[2])}!")
+            
             while True:
                 # display the correct menu for the type of user
                 display_menu(user[5])

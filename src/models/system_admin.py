@@ -10,7 +10,7 @@ class SystemAdmin(Consultant):
         super().__init__(first_name, last_name, username, password)
         self.role = Role.SYSTEM
 
-    def list_users(self):
+    def list_users():
         db = db_connection("src/um.db")
 
         conn = db.create_connection()
