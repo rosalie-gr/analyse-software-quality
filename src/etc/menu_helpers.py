@@ -20,7 +20,7 @@ class MenuManager:
                 # its a little messy, i tried to move it all to modify consult info but circular import wahwah
                 # for now its here, maybe it can be moved to updtae-users
                 print("choice which consultant you want to update")
-                user_list = SystemAdmin.list_users(user)
+                user_list = SystemAdmin.list_users()
                 MenuManager.print_user_list_role(user_list, 0)
                 consultant_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
                                                   v.number_check)
@@ -101,7 +101,7 @@ class MenuManager:
                  # its a little messy, i tried to move it all to modify consult info but circular import wahwah
                 # for now its here, maybe it can be moved to updtae-users
                 print("choice which admin you want to update")
-                user_list = SystemAdmin.list_users(user)
+                user_list = SystemAdmin.list_users()
                 MenuManager.print_user_list_role(user_list, 1)
                 
                 sys_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
@@ -126,7 +126,7 @@ class MenuManager:
             case '3':
                 reset_system_admin_password()
             case '4':
-                user_list = SystemAdmin.list_users(user)
+                user_list = SystemAdmin.list_users()
                 for user in user_list:
                     if user['Role'] == 0:
                         print(f"ID: {user['ID']} Username: {user['Username']}, Role: {user['Role']}")
@@ -157,5 +157,13 @@ class MenuManager:
             for user in user_list :
                 if user['Role'] == user_role:
                     print(f"ID: {user['ID']} Username: {user['Username']}, First Name: {user['First Name']}, Last Name: {user['Last Name']} Role: {user['Role']}")
+        else:
+            return False
+    
+    # print members
+    def print_members(member_list):
+        if member_list:
+            for member in member_list:
+                print(f"ID: {member['ID']} First Name: {member['First Name']} Last Name: {member['Last Name']} Age: {member['Age']} Gender: {member['Gender']} Weight: {member['Weight']} Address ID: {member['Address ID']} Email: {member['Email']} Mobile Phone: {member['Mobile Phone']} Registration Date: {member['Registration Date']}")
         else:
             return False

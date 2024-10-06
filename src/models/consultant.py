@@ -65,9 +65,49 @@ class Consultant(User):
     def update_member(self, member_id: str, field_name: str, new_value: str):
         pass
 
-    def display_members(self, members: list):
-        pass
-    
+    def list_members(self, members: list):
+        db = db_connection("src/um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT id, first_name, last_name, age, gender, weight, address_id, email, mobile_phone, registration_date FROM members")
+        members = cursor.fetchall()
+        if len(members) == 1 or len(members) == 0:
+            return False
+        
+        member_list = []
+        for member in members:
+            member_id, first_name, last_name, age, gender, weight, address_id, email, mobile_phone, registration_date = member
+            
+            first_name = database_encryption.decrypt_data(first_name)
+            last_name = database_encryption.decrypt_data(last_name)
+            age = database_encryption.decrypt_data(age)
+            gender = database_encryption.decrypt_data(gender)
+            weight = database_encryption.decrypt_data(weight)
+            email = database_encryption.decrypt_data(email)
+            mobile_phone = database_encryption.decrypt_data(mobile_phone)
+
+            member_details = {
+                "ID": member_id,
+                "First Name": first_name,
+                "Last Name": last_name,
+                "Age": age,
+                "Gender": gender,
+                "Weight": weight,
+                "Address ID": address_id,
+                "Email": email,
+                "Mobile Phone": mobile_phone,
+                "Registration Date": registration_date
+            }
+
+            member_list.append(member_details)
+        
+        cursor.close()
+        db.close_connection(conn)
+        
+        return member_list
+
     def search_member(self, search_key: str):
         pass
 
