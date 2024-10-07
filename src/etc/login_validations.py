@@ -30,13 +30,17 @@ def authenticate_user(username, password):
     user_list = SystemAdmin.list_users()
 
     # loop through list, looking for user with the right username
+    user_id = None
     if user_list:
         for user in user_list :
             if user['Username'] == username:
                 user_id = user['ID']
+        if user_id == None:
+            return None
     else:
         return None
     
+    print(user_id)
     # select the user based on their ID in order to get their password
     cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
     user_record = cursor.fetchone()
