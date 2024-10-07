@@ -19,26 +19,34 @@ class User:
         self.role = role
 
     # Changes the password of the user
-    def change_password(self, new_password: str):
-        if new_password == self.password:
+    def change_password(self):
+        new_password = input("Enter new password: ")
+          
+        if new_password == self[4]:
             print("New password cannot be the same as the old password.")
             return False
         
         if v.validate_password(new_password):
             new_password_hash = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
+            username = database_encryption.decrypt_data(self[3])
+            print(f"Changing password for user: {username}")
             
             # Update the password in the database
-            db = db_connection("um.db")
+            db = db_connection("src/um.db")
             conn = db.create_connection()
             cursor = conn.cursor()
 
             try:
                 query = "UPDATE users SET password = ? WHERE username = ?"
-                cursor.execute(query, (new_password_hash, self.username))
+                cursor.execute(query, (new_password_hash, self[3]))
                 conn.commit()
 
-                # If the database update is successful, update the instance variable
-                self.password = new_password_hash
+                if cursor.rowcount == 1:
+                    print("Password update query executed successfully.")
+                else:
+                    print("Password update failed: No rows were affected.")
+                    return False
+        
                 print("\nPassword changed successfully.")
                 return True
             except Exception as e:

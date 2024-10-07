@@ -10,6 +10,7 @@ from backup_system import backup_system
 from models.consultant import Consultant
 from models.super_admin import SuperAdmin
 from models.system_admin import SystemAdmin
+from models.user import User
 from etc.encryption.database_encryption import database_encryption
 
 database.db_setup.db_setup("src/um.db")
@@ -103,7 +104,8 @@ def system_admin_actions(user, choice):
                 case '6':
                     view_logs(user)
                 case '7':
-                    update_password(user)
+                    admin = SystemAdmin(user[0], user[1], user[2], user[3], 0)
+                    SuperAdmin.change_password(admin)
                 case '0':
                     print("Logging out")
                     # Handle logout logic
@@ -118,7 +120,8 @@ def consultant_actions(user, choice):
                     case '3':
                         search_member(user)
                     case '4':
-                        update_password(user)
+                        # const = User(user[0], user[1], user[2], user[3], 0)
+                        Consultant.change_password(user)
                     case '0':
                         print("Logging out")
                         # Handle logout logic
