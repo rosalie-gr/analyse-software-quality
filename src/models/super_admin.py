@@ -25,7 +25,7 @@ class SuperAdmin(SystemAdmin):
                         database_encryption.encrypt_data(new_sys_admin.last_name), 
                         database_encryption.encrypt_data(new_sys_admin.username), 
                         new_sys_admin.password, 
-                        Role.CONSULT.value))
+                        Role.SYSTEM.value))
         conn.commit()
         print("Consultant added")
 

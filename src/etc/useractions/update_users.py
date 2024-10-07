@@ -45,6 +45,9 @@ class Update_users:
             return None
 
     def update_consultant(consultant):
+        if consultant.role != 0:
+            print("This user is not a consultant.")
+            return None
         print("Select the field to edit:")
         fields = {
             "1": ("first_name", v.name_check, consultant.first_name),
@@ -76,6 +79,9 @@ class Update_users:
 
 
     def update_system_admin(system_admin):
+        if system_admin.role != 1:
+            print("This user is not a system admin.")
+            return None
         print("Select the field to edit:")
         fields = {
             "1": ("first_name", v.name_check, system_admin.first_name),

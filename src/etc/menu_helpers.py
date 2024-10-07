@@ -98,13 +98,11 @@ class MenuManager:
             case '1':
                 SuperAdmin.add_system_admin(user)
             case '2':
-                 # its a little messy, i tried to move it all to modify consult info but circular import wahwah
-                # for now its here, maybe it can be moved to updtae-users
                 print("choice which admin you want to update")
                 user_list = SystemAdmin.list_users()
                 MenuManager.print_user_list_role(user_list, 1)
                 
-                sys_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
+                sys_id = v.get_valid_input("Enter the ID of the system admin you want to update, or enter 0 to go back to the main menu: ", 
                                         v.number_check)
                 if sys_id == '0':
                     return
@@ -116,7 +114,7 @@ class MenuManager:
                 sys =  User.search_user(user, sys_id)
                 print(sys.first_name, sys.last_name, sys.username, sys.password)
 
-                result = Update_users.update_consultant(sys)
+                result = Update_users.update_system_admin(sys)
                 if result is None:
                     print("Not a valid field. going back to main menu")
                     return
@@ -127,9 +125,7 @@ class MenuManager:
                 reset_system_admin_password()
             case '4':
                 user_list = SystemAdmin.list_users()
-                for user in user_list:
-                    if user['Role'] == 0:
-                        print(f"ID: {user['ID']} Username: {user['Username']}, Role: {user['Role']}")
+                MenuManager.print_user_list_role(user_list, 1)
                 sys_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
                                                   v.number_check)
                 if sys_id == '0':
