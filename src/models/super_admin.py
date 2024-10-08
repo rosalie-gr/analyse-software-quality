@@ -27,7 +27,7 @@ class SuperAdmin(SystemAdmin):
                         new_sys_admin.password, 
                         Role.SYSTEM.value))
         conn.commit()
-        print("Consultant added")
+        print("Admin added")
 
         cursor.close()
         db.close_connection(conn)

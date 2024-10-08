@@ -7,8 +7,8 @@ from datetime import datetime
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # DATABASE_FILE should be one level above BASE_DIR
 DATABASE_FILE = os.path.join(os.path.dirname(BASE_DIR), 'src/um.db')
-LOG_FILES_DIR = os.path.join(BASE_DIR, 'logs')
-BACKUP_DIR = os.path.join(BASE_DIR, 'backups/backups')
+LOG_FILES_DIR = os.path.join(BASE_DIR, 'backup_system')
+BACKUP_DIR = os.path.join(BASE_DIR, r"backup_system\backups")
 
 def create_backup():
     print(BASE_DIR)
@@ -38,7 +38,16 @@ def create_backup():
     print(f'Backup created successfully: {backup_filename}')
 
 
-def restore_backup(backup_file):
+def restore_backup(user):
+    list = list_backups()
+    for i in range(len(list)):
+        print(f"{i+1}. {list[i]}")
+        # later check if nummer with value is in list
+    backup_file = input("Enter the id of the backup file to restore: ")
+    backup_file = list[int(backup_file)-1]
+    print(f"Restoring backup: {backup_file}")
+    return restore_system(backup_file)
+    
     # Ensure the backup file exists
     backup_file = os.path.join(BACKUP_DIR, backup_file)
     if not os.path.exists(backup_file):
