@@ -46,7 +46,6 @@ def restore_backup(user):
     backup_file = input("Enter the id of the backup file to restore: ")
     backup_file = list[int(backup_file)-1]
     print(f"Restoring backup: {backup_file}")
-    return restore_system(backup_file)
     
     # Ensure the backup file exists
     backup_file = os.path.join(BACKUP_DIR, backup_file)

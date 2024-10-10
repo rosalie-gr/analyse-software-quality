@@ -146,6 +146,7 @@ class MenuManager:
             for user in user_list :
                 print(f"ID: {user['ID']} Username: {user['Username']}, First Name: {user['First Name']}, Last Name: {user['Last Name']} Role: {user['Role']}")
         else:
+            print("No users found.")
             return False
     # print users based on role
     def print_user_list_role(user_list, user_role):
@@ -154,6 +155,7 @@ class MenuManager:
                 if user['Role'] == user_role:
                     print(f"ID: {user['ID']} Username: {user['Username']}, First Name: {user['First Name']}, Last Name: {user['Last Name']} Role: {user['Role']}")
         else:
+            print("No users found with that role.")
             return False
     
     # print members

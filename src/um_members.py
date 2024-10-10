@@ -22,7 +22,7 @@ def display_menu(user_role):
         print("\n[1] View Users\n"
               "[2] Manage Admins\n"
               "[3] Manage Consultants\n"
-              "[4] Search Member\n"
+              "[4] Manage Member\n"
               "[5] Backup System\n"
               "[6] Restore System\n"
               "[7] View Logs\n"
@@ -72,7 +72,7 @@ def super_admin_actions(user, choice):
                 case '4':
                     MenuManager.manage_members(user)
                 case '5':
-                    backup_system.create_backup(user)
+                    backup_system.create_backup()
                 case '6':
                     #this might need to be updated to list all backups first and then ask for the backup to restore, also show latest backup
                     backup_system.restore_backup(user)
@@ -84,6 +84,7 @@ def super_admin_actions(user, choice):
                 case 'E':
                     # Logger.log_activity(user.username, "Exited the system", "System exited", False)
                     print("Exiting the system")
+                    exit()
                     # Handle exit logic
 
 def system_admin_actions(user, choice):
@@ -97,7 +98,7 @@ def system_admin_actions(user, choice):
                 case '3':
                     MenuManager.manage_members(user)
                 case '4':
-                    backup_system.create_backup(user)
+                    backup_system.create_backup()
                 case '5':
                     #this might need to be updated to list all backups first and then ask for the backup to restore, also show latest backup
                     backup_system.restore_backup(user)
@@ -111,6 +112,7 @@ def system_admin_actions(user, choice):
                     # Handle logout logic
                 case 'E':
                     print("Exiting the system")
+                    exit()
 def consultant_actions(user, choice):
         match choice:
                     case '1':
@@ -127,6 +129,7 @@ def consultant_actions(user, choice):
                         # Handle logout logic
                     case 'E':
                         print("Exiting the system")
+                        exit()
 
 def main():
     #encrypt and set up the database
