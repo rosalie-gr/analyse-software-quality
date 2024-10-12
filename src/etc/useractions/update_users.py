@@ -67,9 +67,9 @@ class Update_users:
         field_name, validation_func, _ = fields[field_choice]
 
         if field_name == "password":
-            new_value = v.prompt_password(f"Enter new {field_name}: ", validation_func)
+            new_value = v.prompt_password(validation_func, f"Enter new {field_name}: ", False)
         else:
-            new_value = v.get_valid_input(f"Enter new {field_name}: ", validation_func)
+            new_value = v.get_valid_input(validation_func, f"Enter new {field_name}: ", False)
         
         if new_value:
             return field_name, new_value
@@ -101,9 +101,9 @@ class Update_users:
         field_name, validation_func, _ = fields[field_choice]
 
         if field_name == "password":
-            new_value = v.prompt_password(f"Enter new {field_name}: ", validation_func)
+            new_value = v.prompt_password(validation_func, f"Enter new {field_name}: ", False)
         else:
-            new_value = v.get_valid_input(f"Enter new {field_name}: ", validation_func)
+            new_value = v.get_valid_input(validation_func, f"Enter new {field_name}: ", False)
         
         if new_value:
             if field_choice == "4":  # Password needs to be hashed

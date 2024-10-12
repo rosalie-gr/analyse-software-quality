@@ -1,5 +1,7 @@
 from .system_admin import SystemAdmin
 from .user import Role
+import bcrypt
+import etc.validation_layer as v
 from database.db_connection import db_connection
 from etc.useractions.make_users import Make_users
 from etc.useractions.update_users import Update_users
@@ -34,7 +36,7 @@ class SuperAdmin(SystemAdmin):
 
 
     def modify_system_admin_info(self, system_admin_id: str, field_name: str, new_value: str):
-        db = db_connection("um.db")
+        db = db_connection("src/um.db")
 
         conn = db.create_connection()
         cursor = conn.cursor()
@@ -72,4 +74,24 @@ class SuperAdmin(SystemAdmin):
             db.close_connection(conn)
 
     def reset_system_admin_password(self, system_admin_id):
-        pass
+        db = db_connection("src/um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM users WHERE id = ?", (system_admin_id,))
+        result = cursor.fetchone()
+
+        if result and result[5] == 1:
+            new_pass = v.get_valid_input(v.validate_password,F"Enter new password for admin {database_encryption.decrypt_data(result[3])}: ", False)
+
+            query = f"UPDATE users SET password = ? WHERE id = ?"
+            temp_password_hash = bcrypt.hashpw(new_pass.encode(), bcrypt.gensalt()).decode()
+            cursor.execute(query, (temp_password_hash, system_admin_id))
+
+            conn.commit()
+            print(f"The password for the admin with ID '{system_admin_id}' has been reset")
+        else:
+            print(f"\nUser with id '{system_admin_id}' is not a system admin or does not exist.")
+        cursor.close()
+        db.close_connection(conn)

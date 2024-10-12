@@ -3,8 +3,8 @@ import models.user
 import bcrypt
 import re
 from database.db_connection import db_connection
-from etc.validation_layer import Validator as validation
-from etc.login_validations import check_password, authenticate_user
+import etc.validation_layer as v
+from etc.login_validations import authenticate_user
 from etc.menu_helpers import MenuManager
 from backup_system import backup_system
 from models.consultant import Consultant
@@ -65,7 +65,6 @@ def super_admin_actions(user, choice):
                     user_list = SystemAdmin.list_users()
                     MenuManager.print_user_list(user_list)
                 case '2':
-                    print( "yippie")
                     MenuManager.manage_admins(user)
                 case '3':
                     MenuManager.manage_consultants(user)
@@ -74,18 +73,15 @@ def super_admin_actions(user, choice):
                 case '5':
                     backup_system.create_backup()
                 case '6':
-                    #this might need to be updated to list all backups first and then ask for the backup to restore, also show latest backup
                     backup_system.restore_backup(user)
                 case '7':
                     view_logs(user)
                 case '0':
                     print("Logging out")
-                    # Handle logout logic
                 case 'E':
                     # Logger.log_activity(user.username, "Exited the system", "System exited", False)
                     print("Exiting the system")
                     exit()
-                    # Handle exit logic
 
 def system_admin_actions(user, choice):
      match choice:
@@ -100,7 +96,6 @@ def system_admin_actions(user, choice):
                 case '4':
                     backup_system.create_backup()
                 case '5':
-                    #this might need to be updated to list all backups first and then ask for the backup to restore, also show latest backup
                     backup_system.restore_backup(user)
                 case '6':
                     view_logs(user)
@@ -109,7 +104,6 @@ def system_admin_actions(user, choice):
                     SuperAdmin.change_password(admin)
                 case '0':
                     print("Logging out")
-                    # Handle logout logic
                 case 'E':
                     print("Exiting the system")
                     exit()
@@ -122,11 +116,9 @@ def consultant_actions(user, choice):
                     case '3':
                         search_member(user)
                     case '4':
-                        # const = User(user[0], user[1], user[2], user[3], 0)
                         Consultant.change_password(user)
                     case '0':
                         print("Logging out")
-                        # Handle logout logic
                     case 'E':
                         print("Exiting the system")
                         exit()
@@ -145,7 +137,7 @@ def main():
 
         if user:
             if user[3] == 'super_admin':
-                 print(f"\nWelcome, {user[1]} {user[2]}")
+                print(f"\nWelcome, {user[1]} {user[2]}")
             else:
                 print(f"\nWelcome, {database_encryption.decrypt_data(user[1])} {database_encryption.decrypt_data(user[2])}!")
             
@@ -160,8 +152,6 @@ def main():
                 if choice == 'E':
                     # log hehe
                     break
-                # if choice != '0' and choice != 'E':
-                #     print("Invalid choice. Please try again.")
         else:
             print("Invalid username or password")
 

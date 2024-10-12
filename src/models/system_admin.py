@@ -1,5 +1,7 @@
 from .consultant import Consultant
 from .user import Role
+import bcrypt
+import etc.validation_layer as v
 from database.db_connection import db_connection
 from etc.useractions.make_users import Make_users
 from etc.useractions.update_users import Update_users
@@ -109,7 +111,27 @@ class SystemAdmin(Consultant):
             db.close_connection(conn)
 
     def reset_consultant_password(self, consultant_id):
-        pass
+        db = db_connection("src/um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT  FRO*M users WHERE id = ?", (consultant_id,))
+        result = cursor.fetchone()
+        if result and result[5] == 0:
+            new_pass = v.get_valid_input(v.validate_password, F"Enter new password for consultant {database_encryption.decrypt_data(result[3])}: ", False)
+            query = f"UPDATE users SET password = ? WHERE id = ?"
+
+            temp_password_hash = bcrypt.hashpw(new_pass.encode(), bcrypt.gensalt()).decode()
+            cursor.execute(query, (temp_password_hash, consultant_id))
+
+            conn.commit()
+            print(f"The password for the consultant with ID '{consultant_id}' has been reset")
+
+        else:
+            print(f"\nUser with ID '{consultant_id}' is not a consultant or does not exist.")
+
+        cursor.close()
+        db.close_connection(conn)
 
     def search_user(self, user_id):
         pass

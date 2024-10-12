@@ -17,13 +17,11 @@ class MenuManager:
             case '1':
                 SystemAdmin.add_consultant(user)
             case '2':
-                # its a little messy, i tried to move it all to modify consult info but circular import wahwah
-                # for now its here, maybe it can be moved to updtae-users
                 print("choice which consultant you want to update")
                 user_list = SystemAdmin.list_users()
                 MenuManager.print_user_list_role(user_list, 0)
-                consultant_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
-                                                  v.number_check)
+                consultant_id = v.get_valid_input(v.number_check, 
+                                                  "Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", False)
                 if consultant_id == '0':
                     return
                 if consultant_id == False:
@@ -42,14 +40,18 @@ class MenuManager:
 
                 SystemAdmin.modify_consultant_info(user, consultant_id, field_name, new_value)
             case '3':
-                reset_consultant_password()
+                user_list = SystemAdmin.list_users()
+                MenuManager.print_user_list_role(user_list, 0)
+                consultant_id = v.get_valid_input(v.number_check, 
+                                                  "Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", False) 
+                if consultant_id == '0':
+                    return
+                SystemAdmin.reset_consultant_password(user, consultant_id)
             case '4':
                 user_list = SystemAdmin.list_users()
-                for user in user_list:
-                    if user['Role'] == 0:
-                        print(f"ID: {user['ID']} Username: {user['Username']}, Role: {user['Role']}")
-                consultant_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
-                                                  v.number_check)
+                MenuManager.print_user_list_role(user_list, 0)
+                consultant_id = v.get_valid_input(v.number_check, 
+                                                  "Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", False)
                 if consultant_id == '0':
                     return
                 if consultant_id == False:
@@ -60,7 +62,7 @@ class MenuManager:
                 return None
             case _:
                 print("Invalid choice. Please try again.")
-                manage_consultants(user)
+                # manage_consultants(user)
 
     def manage_members(user):
         print("\nManage Members\n"
@@ -84,7 +86,7 @@ class MenuManager:
                 return None
             case _:
                 print("Invalid choice. Please try again.")
-                manage_members(user)
+                # manage_members(user)
 
     def manage_admins(user):
         print("\n[1] Add Admin\n"
@@ -102,12 +104,9 @@ class MenuManager:
                 user_list = SystemAdmin.list_users()
                 MenuManager.print_user_list_role(user_list, 1)
                 
-                sys_id = v.get_valid_input("Enter the ID of the system admin you want to update, or enter 0 to go back to the main menu: ", 
-                                        v.number_check)
+                sys_id = v.get_valid_input(v.number_check, 
+                                           "Enter the ID of the admin you want to update, or enter 0 to go back to the main menu: ", False)
                 if sys_id == '0':
-                    return
-                if sys_id == False:
-                    print("Too many wrong attempts, going back to main menu")
                     return
                 
                 # maybe still need to add a check if its a system admin
@@ -116,29 +115,31 @@ class MenuManager:
 
                 result = Update_users.update_system_admin(sys)
                 if result is None:
-                    print("Not a valid field. going back to main menu")
                     return
                 field_name, new_value = result
 
                 SuperAdmin.modify_system_admin_info(user, sys_id, field_name, new_value)
             case '3':
-                reset_system_admin_password()
+                user_list = SystemAdmin.list_users()
+                MenuManager.print_user_list_role(user_list, 1)
+                sys_id = v.get_valid_input(v.number_check, 
+                                           "Enter the ID of the admin you want to update, or enter 0 to go back to the main menu: ", False)
+                if sys_id == '0':
+                    return
+                SuperAdmin.reset_system_admin_password(user, sys_id)
             case '4':
                 user_list = SystemAdmin.list_users()
                 MenuManager.print_user_list_role(user_list, 1)
-                sys_id = v.get_valid_input("Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", 
-                                                  v.number_check)
+                sys_id = v.get_valid_input(v.number_check, 
+                                           "Enter the ID of the admin you want to update, or enter 0 to go back to the main menu: ", False)
                 if sys_id == '0':
-                    return
-                if sys_id == False:
-                    print("Too many wrong attempts, going back to main menu")
                     return
                 SuperAdmin.delete_system_admin(user, sys_id)
             case '5':
                 return None
             case _:
                 print("Invalid choice. Please try again.")
-                manage_admins(user)
+                # manage_admins(user)
 
     # generic print, shows all users
     def print_user_list(user_list):
