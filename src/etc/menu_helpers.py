@@ -95,11 +95,29 @@ class MenuManager:
 
                 Consultant.update_member(user, member_id, field_name, new_value)
             case '3':
-                #search key pls
-                SuperAdmin.search_member(self, Searchkey)
+                search_key = v.get_valid_input(v.search_key_check, "Enter a search key, or enter 0 to go back to the main menu", False)
+                if search_key == '0':
+                    return
+
+                # search for members based on the search key & print the results
+                found_members = SuperAdmin.search_member(user, search_key)
+                MenuManager.print_members(found_members)
             case '4':
-                # search member first
-                SuperAdmin.delete_member(self, mem_id, add_id)
+                print("choice which member you want to delete")
+                # get & print list of all members
+                member_list = Consultant.list_members(user)
+                MenuManager.print_members(member_list)
+
+                # get input for a member ID to delete it
+                member_id = v.get_valid_input(v.number_check, 
+                                                  "Enter the ID of the member you want to update, or enter 0 to go back to the main menu: ", False)
+                if member_id == '0':
+                    return
+                
+                # search for that specific member based on their ID
+                member = SuperAdmin.search_member_id(user, member_id)
+
+                SuperAdmin.delete_member(user, member["ID"], member["Address ID"])
             case '5':
                 return None
             case _:

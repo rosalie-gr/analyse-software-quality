@@ -204,10 +204,10 @@ class Consultant(User):
 
         # check if search_result_encrypted isn't empty
         if search_result_encrypted:
-            street_name = database_encryption.decrypt_data(street_name)
-            house_num = database_encryption.decrypt_data(house_num)
-            zip_code = database_encryption.decrypt_data(zip_code)
-            city = database_encryption.decrypt_data(city)
+            street_name = database_encryption.decrypt_data(search_result_encrypted[1])
+            house_num = database_encryption.decrypt_data(search_result_encrypted[2])
+            zip_code = database_encryption.decrypt_data(search_result_encrypted[3])
+            city = database_encryption.decrypt_data(search_result_encrypted[4])
 
             address_details = {
                 "ID": address_id,
@@ -258,3 +258,43 @@ class Consultant(User):
         db.close_connection(conn)
 
         return address_list
+    
+    def search_member_id(self, member_id: str):
+        db = db_connection("src/um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+        
+        search_result_encrypted = cursor.execute("SELECT * FROM members WHERE id = ?", (member_id,)).fetchone()
+
+        # check if search_result_encrypted isn't empty
+        if search_result_encrypted:
+            first_name = database_encryption.decrypt_data(search_result_encrypted[1])
+            last_name = database_encryption.decrypt_data(search_result_encrypted[2])
+            age = database_encryption.decrypt_data(search_result_encrypted[3])
+            gender = database_encryption.decrypt_data(search_result_encrypted[4])
+            weight = database_encryption.decrypt_data(search_result_encrypted[5])
+            email = database_encryption.decrypt_data(search_result_encrypted[7])
+            mobile_phone = database_encryption.decrypt_data(search_result_encrypted[8])
+
+            member_details = {
+                "ID": member_id,
+                "First Name": first_name,
+                "Last Name": last_name,
+                "Age": age,
+                "Gender": gender,
+                "Weight": weight,
+                "Address ID": search_result_encrypted[6],
+                "Email": email,
+                "Mobile Phone": mobile_phone,
+                "Registration Date": search_result_encrypted[9]
+            }
+        
+            cursor.close()
+            db.close_connection(conn)
+
+            return member_details
+        else:
+            cursor.close()
+            db.close_connection(conn)
+            return None
