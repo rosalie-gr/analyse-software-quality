@@ -1,7 +1,7 @@
 from enum import Enum
 from database.db_connection import db_connection
 from etc.encryption.database_encryption import database_encryption
-import etc.input_validations as v
+import etc.validation_layer as v
 import bcrypt
 
 class Role(Enum):

@@ -3,7 +3,7 @@ import models.user
 import bcrypt
 import re
 from database.db_connection import db_connection
-from etc.input_validations import Validator as validation
+from etc.validation_layer import Validator as validation
 from etc.login_validations import check_password, authenticate_user
 from etc.menu_helpers import MenuManager
 from backup_system import backup_system

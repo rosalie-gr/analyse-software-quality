@@ -1,6 +1,6 @@
 import re
 import bcrypt
-from etc import input_validations as v
+from etc import validation_layer as v
 from models.member import Gender, City, Member  
 
 class Update_users:
