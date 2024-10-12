@@ -1,3 +1,9 @@
+from etc.dependencies import Dependencies
+
+print("Installing dependencies...")
+Dependencies.install_dependencies()
+print("Dependencies installed.")
+
 import database.db_setup
 import models.user
 import bcrypt

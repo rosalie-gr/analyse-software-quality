@@ -50,8 +50,7 @@ class SystemAdmin(Consultant):
         if new_consultant == False:
             print("Consultant not added, going back to main menu")
             return
-        print(new_consultant.first_name, new_consultant.last_name, new_consultant.username, new_consultant.password)
-
+        
         # now we need to add it to the database and encrypt
         db = db_connection("src/um.db")
 
