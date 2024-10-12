@@ -77,7 +77,26 @@ class MenuManager:
             case '1':
                 Consultant.add_member(user)
             case '2':
-                update_member()
+                print("choice which member you want to update")
+                member_list = Consultant.list_members()
+                MenuManager.print_members()
+                member_id = v.get_valid_input(v.number_check, 
+                                                  "Enter the ID of the member you want to update, or enter 0 to go back to the main menu: ", False)
+                if member_id == '0':
+                    return
+                if member_id == False:
+                    print("Too many wrong attempts, going back to main menu")
+                    return
+                
+                member = Consultant.search_member(user, member_id)
+                result = Update_users.update_member(member)
+
+                if result is None:
+                    print("Not a valid field, going back to main menu")
+                    return
+                field_name, new_value = result
+
+                Consultant.update_member(user, member_id, field_name, new_value)
             case '3':
                 search_member()
             case '4':
