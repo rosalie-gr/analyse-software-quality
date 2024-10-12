@@ -132,9 +132,6 @@ class SystemAdmin(Consultant):
         cursor.close()
         db.close_connection(conn)
 
-    def search_user(self, user_id):
-        pass
-
     def make_backup(self):
         # Add logic to make a backup of the system
         pass
@@ -147,4 +144,22 @@ class SystemAdmin(Consultant):
         pass
 
     def delete_member(self, member_id, address_id):
-        pass
+        db = db_connection("um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+
+        member_result = cursor.execute("SELECT * FROM members WHERE id = ?", (member_id,)).fetchone()
+        member_address_result = cursor.execute("SELECT * FROM addresses WHERE id = ?", (address_id,)).fetchone()
+
+        if member_result and member_address_result:
+            cursor.execute("DELETE FROM members WHERE id = ?", (member_id,))
+            cursor.execute("DELETE FROM addresses WHERE id = ?", (address_id,))
+            conn.commit()
+            print(f"\nMember with ID '{member_id}' deleted successfully.")
+
+        else:
+            print(f"\nMember with ID '{member_id}' not found.")
+
+        cursor.close()
+        db.close_connection(conn)
