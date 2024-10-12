@@ -63,7 +63,48 @@ class Consultant(User):
         db.close_connection(conn)
 
     def update_member(self, member_id: str, field_name: str, new_value: str):
-        pass
+        db = db_connection("um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+
+        address_id = None
+
+        # Check if the field is an address field since addresses & member info are two seperate tables
+        if field_name in {"street_name", "house_num", "zip_code", "city"}:
+            # Get the member details to retrieve address_id
+            member = self.search_member(member_id)
+            if member:
+                address_id = member[0][6]  # Access the address_id from the first member entry
+                query = f"UPDATE addresses SET {field_name} = ? WHERE id = ?"
+            else:
+                print(f"No member found with ID {member_id}")
+                cursor.close()
+                db.close_connection(conn)
+                return
+        else:
+            # Safe parameterized query for updating members table
+            query = f"UPDATE members SET {field_name} = ? WHERE id = ?"
+
+        # Encrypt the new value
+        if isinstance(new_value, (Gender, City)):
+            new_value = database_encryption.encrypt_data(new_value.value)
+        else:
+            new_value = database_encryption.encrypt_data(new_value)
+
+        if address_id:
+            # Execute the UPDATE query for address
+            cursor.execute(query, (new_value, address_id))
+        else:
+            # Execute the UPDATE query for member
+            cursor.execute(query, (new_value, member_id))
+
+        conn.commit()
+        cursor.close()
+        db.close_connection(conn)
+
+        print(f"\nThe field {field_name} has been updated")
+
 
     def list_members(self, members: list):
         db = db_connection("src/um.db")
@@ -109,7 +150,111 @@ class Consultant(User):
         return member_list
 
     def search_member(self, search_key: str):
-        pass
+        db = db_connection("src/um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+        
+        member_list = self.list_members()
+        address_list = self.find_address()
+
+        search_key_lower = search_key.lower()
+
+        search_results = []
+        
+        # check members & addresses tables
+        for member in member_list:
+            match_found = False # to track if search_key is found within this members info; once its found somewhere, the rest of the members info doesnt need to be checked since itll all be added to the result
+
+            for key, value in member.items(): # loop through each key value pair in the dictionary
+                if isinstance(value, str) and search_key_lower in value.lower(): # check if value contains search_key
+                    search_results.append(member) # add all of the members info to search_results
+                    match_found = True
+                    break
+            
+            # if search_key isnt found in members table, check the linked address in the addresses table
+            if not match_found:
+                address = self.find_address(member['Address ID'])  # Get the member's address
+                if address:
+                    for key, value in address.items():
+                        if isinstance(value, str) and search_key_lower in value:
+                            match_found = True
+                            break  # Stop checking address details if a match is found
+            
+            # if a match is found, add member info and their address info to the result
+            if match_found:
+                address = self.find_address(member['Address ID'])  # Get the member's address
+                if address:
+                    # Merge member and address dictionaries
+                    member_with_address = {**member, **address}  # Combine member and address into one dictionary
+                    search_results.append(member_with_address)
+
+        cursor.close()
+        db.close_connection(conn)
+
+        return search_results
 
     def find_address(self, address_id):
-        pass
+        db = db_connection("src/um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+        
+        search_result_encrypted = cursor.execute("SELECT * FROM addresses WHERE id = ?", (address_id,)).fetchone()
+
+        # check if search_result_encrypted isn't empty
+        if search_result_encrypted:
+            street_name = database_encryption.decrypt_data(street_name)
+            house_num = database_encryption.decrypt_data(house_num)
+            zip_code = database_encryption.decrypt_data(zip_code)
+            city = database_encryption.decrypt_data(city)
+
+            address_details = {
+                "ID": address_id,
+                "Street Name": street_name,
+                "House Number": house_num,
+                "Zip Code": zip_code,
+                "City": city
+            }
+        
+            cursor.close()
+            db.close_connection(conn)
+
+            return address_details
+        else:
+            cursor.close()
+            db.close_connection(conn)
+            return None
+
+    def list_addresses():
+        db = db_connection("src/um.db")
+
+        conn = db.create_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT id, street_name, house_num, zip_code, city FROM addresses")
+        addresses = cursor.fetchall()
+        if len(addresses) == 1 or len(addresses) == 0:
+            return 
+        
+        address_list = []
+        for address in addresses:
+            address_id, street_name, house_num, zip_code, city = address
+
+            street_name = database_encryption.decrypt_data(street_name)
+            house_num = database_encryption.decrypt_data(house_num)
+            zip_code = database_encryption.decrypt_data(zip_code)
+            city = database_encryption.decrypt_data(city)
+
+            address_details = {
+                "ID": address_id,
+                "Street Name": street_name,
+                "House Number": house_num,
+                "Zip Code": zip_code,
+                "City": city
+            }
+        
+        cursor.close()
+        db.close_connection(conn)
+
+        return address_list
