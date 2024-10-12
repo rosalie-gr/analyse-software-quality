@@ -17,7 +17,8 @@ class Make_users:
         if not age: return False
         age = int(age)
 
-        gender = v.get_enum_input(Gender, "Gender: ", False)
+        print("je moeder")
+        gender = v.get_enum_input("Gender: ",Gender, 3)
         if not gender: return False
 
         weight = v.get_valid_input(v.number_check, "Weight: ", False)
@@ -32,7 +33,7 @@ class Make_users:
         zip_code = v.get_valid_input(v.zip_code_check, "Zip code: ", False)
         if not zip_code: return False
 
-        city = v.get_enum_input( City, "City: ", False)
+        city = v.get_enum_input("City: ",City, 3)
         if not city: return False
 
         email = v.get_valid_input(v.email_check, "Email: ", False)

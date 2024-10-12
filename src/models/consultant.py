@@ -106,7 +106,7 @@ class Consultant(User):
         print(f"\nThe field {field_name} has been updated")
 
 
-    def list_members(self, members: list):
+    def list_members(self):
         db = db_connection("src/um.db")
 
         conn = db.create_connection()
@@ -114,7 +114,7 @@ class Consultant(User):
         
         cursor.execute("SELECT id, first_name, last_name, age, gender, weight, address_id, email, mobile_phone, registration_date FROM members")
         members = cursor.fetchall()
-        if len(members) == 1 or len(members) == 0:
+        if len(members) == 0:
             return False
         
         member_list = []
@@ -155,8 +155,8 @@ class Consultant(User):
         conn = db.create_connection()
         cursor = conn.cursor()
         
-        member_list = self.list_members()
-        address_list = self.find_address()
+        member_list = self.list_members(self)
+        address_list = self.list_addresses()
 
         search_key_lower = search_key.lower()
 
