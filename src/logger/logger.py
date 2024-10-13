@@ -95,7 +95,6 @@ class logger:
             PUBLIC_KEY = encryption.load_public_key()
 
             # Encrypt the log data
-            print(username)
             encrypted_data = {
                 'No.': logger.encrypt_message(str(next_no), PUBLIC_KEY),  # Encrypt log number
                 'Timestamp': logger.encrypt_message(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), PUBLIC_KEY),
