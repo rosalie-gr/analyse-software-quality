@@ -1,5 +1,5 @@
 from models.super_admin import SuperAdmin, SystemAdmin
-from models.consultant import Consultant, Member, User
+from models.consultant import Consultant, Member, User, Address
 from etc.useractions.update_users import Update_users
 import etc.validation_layer as v
 
@@ -79,7 +79,15 @@ class MenuManager:
                 if member_id == '0':
                     return
                 
-                member = Consultant.search_member(user, member_id)                                    
+                # returns a list
+                member_info = Consultant.search_member_id(user, member_id)
+                member_address = Consultant.find_address(user, member_info["Address ID"])
+
+                # turn address list into an address object
+                address = Address(member_address["Street Name"], member_address["House Number"], member_address["Zip Code"], member_address["City"])
+
+                # turn member list & address object into a member object for the update_member function to use
+                member = Member(member_info["First Name"], member_info["Last Name"], member_info["Age"], member_info["Gender"], member_info["Weight"], address, member_info["Email"], member_info["Mobile Phone"])                             
                        
                 result = Update_users.update_member(member)
 
