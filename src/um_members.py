@@ -118,9 +118,15 @@ def consultant_actions(user, choice):
                     case '1':
                         Consultant.add_member(user)
                     case '2':
-                        update_member(user)
+                        Consultant.update_member(user)
                     case '3':
-                        search_member(user)
+                        search_key = v.get_valid_input(v.search_key_check, "Enter a search key, or enter 0 to go back to the main menu: ", False)
+                        if search_key == '0':
+                            return
+
+                        # search for members based on the search key & print the results
+                        found_members = SuperAdmin.search_member(user, search_key)
+                        MenuManager.print_members(found_members)
                     case '4':
                         Consultant.change_password(user)
                     case '0':
