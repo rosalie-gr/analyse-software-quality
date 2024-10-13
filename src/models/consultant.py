@@ -46,7 +46,7 @@ class Consultant(User):
         # Insert into members table
         cursor.execute("""INSERT INTO members (id, first_name, last_name, age, gender, weight, address_id, email, 
                           mobile_phone, registration_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                       (member.membership_id,
+                       (membership_id,
                         database_encryption.encrypt_data(member.first_name),
                         database_encryption.encrypt_data(member.last_name),
                         database_encryption.encrypt_data(member.age),

@@ -11,17 +11,18 @@ class member_helper:
         return date_string
 
     def get_membership_id():
-        current_year = datetime.datetime.now().year % 100 
         
         while True:
-            year = random.randint(0, current_year)
-            year_str = f"{year:02d}"  # Format the year as a two-digit string
+            current_year = datetime.datetime.now().year
+            last_two_digits = str(current_year)[-2:]
+            print("Year:", last_two_digits)
             
             random_digits = ''.join([str(random.randint(0, 9)) for _ in range(7)])
             
-            id_without_checksum = year_str + random_digits
+            id_without_checksum = last_two_digits + random_digits
 
             checksum = sum(int(digit) for digit in id_without_checksum) % 10
             
             final_id = id_without_checksum + str(checksum)
+            print(final_id)
             return final_id

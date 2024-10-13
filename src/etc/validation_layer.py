@@ -39,7 +39,6 @@ def get_valid_input(validation_func, prompt="Enter input: ", is_sensitive=True, 
 
 # Prompt for enum input (for selecting from predefined options like Gender, City, etc.)
 def get_enum_input(prompt, enum, attempts=3):
-    print("je mama")
     for attempt in range(attempts):
         print(prompt)
         for item in enum:
