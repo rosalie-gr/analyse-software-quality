@@ -92,6 +92,8 @@ class MenuManager:
                 member = Member(member_info["First Name"], member_info["Last Name"], member_info["Age"], member_info["Gender"], member_info["Weight"], address, member_info["Email"], member_info["Mobile Phone"])                             
                        
                 result = Update_users.update_member(member)
+                if result is None:
+                    return
 
                 field_name, new_value = result
 

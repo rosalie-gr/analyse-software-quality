@@ -28,8 +28,9 @@ class User:
         
         if v.validate_password(new_password):
             new_password_hash = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
-            username = database_encryption.decrypt_data(self[3])
-            print(f"Changing password for user: {username}")
+            username = self[3]
+            id = self[0]
+            print(f"Changing password for user: {username} with ID: {id}")
             
             # Update the password in the database
             db = db_connection("src/um.db")
@@ -37,8 +38,8 @@ class User:
             cursor = conn.cursor()
 
             try:
-                query = "UPDATE users SET password = ? WHERE username = ?"
-                cursor.execute(query, (new_password_hash, self[3]))
+                query = "UPDATE users SET password = ? WHERE id = ?"
+                cursor.execute(query, (new_password_hash, id))
                 conn.commit()
 
                 if cursor.rowcount == 1:

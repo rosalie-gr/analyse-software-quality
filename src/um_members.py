@@ -60,13 +60,24 @@ def display_menu(user_role):
 
 def handle_choice(user, choice):
     user_role = user[5]
+    decrypted_user = []
 
     if user_role ==  2:#models.user.Role.SUPER:
         super_admin_actions(user, choice)
-    elif user_role == 1: #models.user.Role.SYSTEM:
-        system_admin_actions(user, choice)
+    elif user_role == 1: #models.user.Role.SYSTEM: 
+        for value in user:
+            if value == user[1] or value == user[2] or value == user[3]:
+                decrypted_user.append(database_encryption.decrypt_data(value))
+            else:
+                decrypted_user.append(value)        
+        system_admin_actions(decrypted_user, choice)
     elif user_role == 0: # models.user.Role.CONSULT:
-        consultant_actions(user, choice)
+        for value in user:
+            if value == user[1] or value == user[2] or value == user[3]:
+                decrypted_user.append(database_encryption.decrypt_data(value))
+            else:
+                decrypted_user.append(value)
+        consultant_actions(decrypted_user, choice)
 
 def super_admin_actions(user, choice):
      match choice:

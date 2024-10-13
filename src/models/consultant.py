@@ -6,7 +6,7 @@ from etc.useractions.make_users import Make_users
 from etc.useractions.update_users import Update_users
 from etc.encryption.database_encryption import database_encryption
 from etc.member_helpers import member_helper
-import logger.logger as logger
+from logger.logger import logger
 
 class Consultant(User):
     def __init__(self, first_name: str, last_name: str, username: str, password: str):
