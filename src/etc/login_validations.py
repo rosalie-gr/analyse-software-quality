@@ -28,7 +28,7 @@ def authenticate_user(username, password):
     user_id = None
     if user_list:
         for user in user_list :
-            if user['Username'] == username:
+            if user['Username'].lower() == username.lower():
                 user_id = user['ID']
         if user_id == None:
             return None
