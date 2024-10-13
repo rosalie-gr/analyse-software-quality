@@ -4,6 +4,7 @@ import bcrypt
 from models.system_admin import SystemAdmin
 from models.consultant import Consultant
 import etc.validation_layer as v
+from logger.logger import logger
 
 # def check_if_temp_pass(username):
 #     db = db_connection("src/um.db")
@@ -45,6 +46,9 @@ def authenticate_user(username, password):
     cursor = conn.cursor()
 
     if username == 'super_admin' and password == 'Admin_123?':
+
+        logger.log_activity("super_admin", "Login", "Super Admin logged in")
+
         return cursor.execute("SELECT * FROM users WHERE id = ?", (1,)).fetchone()
     
     # get decrypted list of users in DB
@@ -70,11 +74,13 @@ def authenticate_user(username, password):
         stored_password = user_record[4]
         
         if bcrypt.checkpw(password.encode("utf-8"), stored_password.encode("utf-8")):
+            logger.log_activity("super_admin", "Login", f"User {username} logged in")
             return user_record
         
     cursor.close()
     conn.close()
 
     # Return None if authentication fails
+    logger.log_activity("super_admin", "Login", f"Failed login attempt for user {username}")
     return None
 
