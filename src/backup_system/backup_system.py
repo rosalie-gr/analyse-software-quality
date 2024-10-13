@@ -78,11 +78,15 @@ def restore_backup(user):
     restored_files = backup_zip.namelist()
     for file in restored_files:
         file_path = os.path.join(temp_restore_dir, file)
-        if file == os.path.basename(DATABASE_FILE):
+        
+        # Restore the database file
+        if os.path.basename(file) == os.path.basename(DATABASE_FILE):
             shutil.copy(file_path, DATABASE_FILE)
             print('Database restored successfully.')
-        elif file == 'Logs.csv':
-            log_file_path = os.path.join(LOG_FILES_DIR, file)
+        
+        # Restore log files (assuming multiple .csv files might be present)
+        elif file.endswith('.csv'):
+            log_file_path = os.path.join(LOG_FILES_DIR, os.path.basename(file))
             if os.path.exists(log_file_path):
                 os.remove(log_file_path)  # Remove the existing log file
             shutil.copy(file_path, log_file_path)
