@@ -7,7 +7,7 @@ from datetime import datetime
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # DATABASE_FILE should be one level above BASE_DIR
 DATABASE_FILE = os.path.join(os.path.dirname(BASE_DIR), 'src/um.db')
-LOG_FILES_DIR = os.path.join(BASE_DIR, 'backup_system')
+LOG_FILES_DIR = os.path.join(BASE_DIR)
 BACKUP_DIR = os.path.join(BASE_DIR, r"backup_system\backups")
 
 def create_backup():
@@ -68,7 +68,7 @@ def restore_backup(user):
         if file == os.path.basename(DATABASE_FILE):
             shutil.copy(file_path, DATABASE_FILE)
             print('Database restored successfully.')
-        elif file == 'logs.csv':
+        elif file == 'Logs.csv':
             log_file_path = os.path.join(LOG_FILES_DIR, file)
             if os.path.exists(log_file_path):
                 os.remove(log_file_path)  # Remove the existing log file
