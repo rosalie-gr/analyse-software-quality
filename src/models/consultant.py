@@ -151,47 +151,36 @@ class Consultant(User):
 
     def search_member(self, search_key: str):
         db = db_connection("src/um.db")
-
         conn = db.create_connection()
         cursor = conn.cursor()
         
         member_list = Consultant.list_members()
-
         search_key_lower = search_key.lower()
-
         search_results = []
         
-        # check members & addresses tables
+        # Check members & addresses tables
         for member in member_list:
-            match_found = False # to track if search_key is found within this members info; once its found somewhere, the rest of the members info doesnt need to be checked since itll all be added to the result
+            match_found = False  # To track if search_key is found within this member's info
 
-            for key, value in member.items(): # loop through each key value pair in the dictionary
-                if isinstance(value, str) and search_key_lower in value.lower(): # check if value contains search_key
-                    search_results.append(member) # add all of the members info to search_results
+            # Loop through each key-value pair in the member's info
+            for key, value in member.items():
+                if isinstance(value, str) and search_key_lower in value.lower():
                     match_found = True
-                    break
+                    break  # Exit loop if a match is found in member's info
             
-            # if search_key isnt found in members table, check the linked address in the addresses table
-            if not match_found:
-                address = Consultant.find_address(self, member['Address ID'])  # Get the member's address
-                if address:
-                    for key, value in address.items():
-                        if isinstance(value, str) and search_key_lower in value:
-                            match_found = True
-                            break  # Stop checking address details if a match is found
-            
-            # if a match is found, add member info and their address info to the result
-            if match_found:
-                address = Consultant.find_address(self, member['Address ID'])  # Get the member's address
-                if address:
-                    # Merge member and address dictionaries
-                    member_with_address = {**member, **address}  # Combine member and address into one dictionary
-                    search_results.append(member_with_address)
+            # If a match is found in the member's fields or address, fetch address and append result
+            address = Consultant.find_address(self, member['Address ID']) if 'Address ID' in member else None
+
+            if match_found or (address and any(search_key_lower in str(v).lower() for v in address.values())):
+                # Merge member and address (if available) into a single dictionary
+                member_with_address = {**member} if address else member
+                search_results.append(member_with_address)  # Append only once
 
         cursor.close()
         db.close_connection(conn)
 
         return search_results
+
 
     def find_address(self, address_id):
         db = db_connection("src/um.db")

@@ -95,7 +95,7 @@ class MenuManager:
 
                 Consultant.update_member(user, member_id, field_name, new_value)
             case '3':
-                search_key = v.get_valid_input(v.search_key_check, "Enter a search key, or enter 0 to go back to the main menu", False)
+                search_key = v.get_valid_input(v.search_key_check, "Enter a search key, or enter 0 to go back to the main menu: ", False)
                 if search_key == '0':
                     return
 
