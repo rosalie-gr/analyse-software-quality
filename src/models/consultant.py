@@ -63,7 +63,7 @@ class Consultant(User):
         db.close_connection(conn)
 
     def update_member(self, member_id: str, field_name: str, new_value: str):
-        db = db_connection("um.db")
+        db = db_connection("src/um.db")
 
         conn = db.create_connection()
         cursor = conn.cursor()

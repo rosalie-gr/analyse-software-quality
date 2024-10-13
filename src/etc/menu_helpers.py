@@ -81,6 +81,9 @@ class MenuManager:
                 
                 # returns a list
                 member_info = Consultant.search_member_id(user, member_id)
+                if not member_info:
+                    print("Member not found.")
+                    return
                 member_address = Consultant.find_address(user, member_info["Address ID"])
 
                 # turn address list into an address object
