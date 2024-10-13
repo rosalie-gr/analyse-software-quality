@@ -52,7 +52,7 @@ class SystemAdmin(Consultant):
         new_consultant = Make_users.make_Consultant()
         if new_consultant == False:
             print("Consultant not added, going back to main menu")
-            logger.log_activity(f"{self[3]}", "Add Consultant", "Failed to add consultant", False)
+            logger.log_activity(f"{self[3]}", "Add Consultant", "Failed to add consultant")
             return
         
         # now we need to add it to the database and encrypt
@@ -93,7 +93,7 @@ class SystemAdmin(Consultant):
         db.close_connection(conn)        
         
         print(f"\nThe field {field_name} has been updated")
-        logger.log_activity(f"{self[3]}", "Modify Consultant Info", f"Modified consultant with ID {consultant_id}'s {field_name} to {new_value}")
+        logger.log_activity(f"{self[3]}", "Modify Consultant Info", f"Modified consultant with ID {consultant_id}'s {field_name} to {new_value}", new_value)
 
     def delete_consultant(self, consultant_id):
         db = db_connection("src/um.db")

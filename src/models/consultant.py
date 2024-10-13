@@ -16,7 +16,7 @@ class Consultant(User):
         new_member = Make_users.make_member()
         if not new_member:
             print("Member not added, returning to main menu.")
-            logger.log_activity(f"{self[2]}", "Add Member", "Failed to add member because it already exists", False)
+            logger.log_activity(f"{self[2]}", "Add Member", "Failed to add member because it already exists","", False)
             return
         
         # Create new member and address objects
@@ -107,7 +107,7 @@ class Consultant(User):
         db.close_connection(conn)
 
         print(f"\nThe field {field_name} has been updated")
-        logger.log_activity(f"{self[2]}", "Update Member", f"Updated member with ID {member_id}'s {field_name} to {new_value}")
+        logger.log_activity(f"{self[2]}", "Update Member", f"Updated member with ID {member_id}'s {field_name} to {new_value}", new_value)
 
 
     def list_members():
@@ -162,7 +162,7 @@ class Consultant(User):
         search_key_lower = search_key.lower()
         search_results = []
 
-        logger.log_activity(f"{self[2]}", "Search Member", f"Searched for members with key {search_key}")
+        logger.log_activity(f"{self[2]}", "Search Member", f"Searched for members with key {search_key}", search_key)
         
         # Check members & addresses tables
         for member in member_list:

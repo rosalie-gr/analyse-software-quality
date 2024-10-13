@@ -66,7 +66,7 @@ class logger:
 
 
     @staticmethod
-    def log_activity(username, description, additional_info, override_suspicious_param=None):
+    def log_activity(username, description, additional_info, input="", override_suspicious_param=None):
         if os.path.exists(logger.LOG_FILE):
             with open(logger.LOG_FILE, 'r') as log_file:
                 reader = csv.DictReader(log_file)
@@ -81,7 +81,7 @@ class logger:
         else:
             # Initialize the SuspiciousActivityDetector
             suspicious_detector = SAD.SuspiciousActivityDetector(logger.return_logs())
-            suspicious = suspicious_detector.detect_suspicious_activity(username, description, additional_info)
+            suspicious = suspicious_detector.detect_suspicious_activity(username, description, additional_info, input)
 
         with open(logger.LOG_FILE, 'a', newline='') as log_file:
             writer = csv.DictWriter(log_file, fieldnames=logger.HEADERS)
