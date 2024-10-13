@@ -17,6 +17,10 @@ def authenticate_user(username, password):
 
         return cursor.execute("SELECT * FROM users WHERE id = ?", (1,)).fetchone()
     
+    if username == 'super_admin' and password != 'Admin_123?':
+        logger.log_activity(f"{username}", "Login", f"Failed login attempt for user {username}")
+        return None
+
     # get decrypted list of users in DB
     user_list = SystemAdmin.list_users()
 
