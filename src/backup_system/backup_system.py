@@ -2,6 +2,8 @@ import os
 import zipfile
 import shutil
 from datetime import datetime
+import etc.validation_layer as v
+from logger.logger import logger
 
 # Ensure these paths are correct relative to the script location
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,7 +45,18 @@ def restore_backup(user):
     for i in range(len(list)):
         print(f"{i+1}. {list[i]}")
         # later check if nummer with value is in list
-    backup_file = input("Enter the id of the backup file to restore: ")
+
+    while True:
+        backup_file = v.get_valid_input(v.number_check, "Enter the number of the backup you want to restore: ", False, True, 1, True)
+
+        if int(backup_file) > len(list) or int(backup_file) < 1:
+            print("Invalid backup number. Please try again.")
+            continue
+
+        elif int(backup_file) <= len(list):
+            break
+
+
     backup_file = list[int(backup_file)-1]
     print(f"Restoring backup: {backup_file}")
     
@@ -79,6 +92,8 @@ def restore_backup(user):
     shutil.rmtree(temp_restore_dir)
     
     print('System restored successfully.')
+    logger.log_activity(user[3], "Restore Backup", f"Restored system from backup {backup_file}")
+
 
 def list_backups():
     backups = [f for f in os.listdir(BACKUP_DIR) if f.endswith('.zip')]

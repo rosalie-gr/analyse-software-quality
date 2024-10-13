@@ -97,12 +97,12 @@ def super_admin_actions(user, choice):
                     backup_system.restore_backup(user)
                 case '7':
                     logger.pretty_logs_display()
-                    logger.log_activity(user[2], "View Logs", "Viewed logs")
+                    logger.log_activity(user[3], "View Logs", "Viewed logs")
                 case '0':
                     print("Logging out")
-                    logger.log_activity(user[2], "Logged out", "Logged out")
+                    logger.log_activity(user[3], "Logged out", "Logged out")
                 case 'E':
-                    logger.log_activity(user.username, "Exited the system", "System exited", False)
+                    logger.log_activity(user[3], "Exited the system", "System exited", False)
                     print("Exiting the system")
                     exit()
 
@@ -122,12 +122,12 @@ def system_admin_actions(user, choice):
                     backup_system.restore_backup(user)
                 case '6':
                     logger.pretty_logs_display()
-                    logger.log_activity(user[2], "View Logs", "Viewed logs")
+                    logger.log_activity(user[3], "View Logs", "Viewed logs")
                 case '7':
                     SuperAdmin.change_password(user)
                 case '0':
                     print("Logging out")
-                    logger.log_activity(user[2], "Logged out", "Logged out")
+                    logger.log_activity(user[3], "Logged out", "Logged out")
                 case 'E':
                     print("Exiting the system")
                     exit()
@@ -174,7 +174,7 @@ def consultant_actions(user, choice):
                         Consultant.change_password(user)
                     case '0':
                         print("Logging out")
-                        logger.log_activity(user[2], "Logged out", "Logged out")
+                        logger.log_activity(user[3], "Logged out", "Logged out")
                     case 'E':
                         print("Exiting the system")
                         exit()
@@ -205,7 +205,7 @@ def main():
                     break
                 handle_choice(user, choice)
                 if choice == 'E':
-                    logger.log_activity(user[2], "Exited the system", "System exited", False)
+                    logger.log_activity(user[3], "Exited the system", "System exited", False)
                     break
         else:
             print("Invalid username or password")
