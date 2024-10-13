@@ -17,7 +17,7 @@ class MenuManager:
             case '1':
                 SystemAdmin.add_consultant(user)
             case '2':
-                print("choose which consultant you want to update")
+                print("Choose which consultant you want to update")
                 user_list = SystemAdmin.list_users()
                 MenuManager.print_user_list_role(user_list, 0)
                 consultant_id = v.get_valid_input(v.number_check, 
@@ -105,7 +105,7 @@ class MenuManager:
                 found_members = SuperAdmin.search_member(user, search_key)
                 MenuManager.print_members(found_members)
             case '4':
-                print("choose which member you want to delete")
+                print("Choose which member you want to delete")
                 # get & print list of all members
                 member_list = Consultant.list_members()
                 MenuManager.print_members(member_list)

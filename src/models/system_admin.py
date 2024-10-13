@@ -52,7 +52,7 @@ class SystemAdmin(Consultant):
         new_consultant = Make_users.make_Consultant()
         if new_consultant == False:
             print("Consultant not added, going back to main menu")
-            logger.log_activity(f"{self.username}", "Add Consultant", "Failed to add consultant", False)
+            logger.log_activity(f"{self[3]}", "Add Consultant", "Failed to add consultant", False)
             return
         
         # now we need to add it to the database and encrypt
@@ -69,7 +69,7 @@ class SystemAdmin(Consultant):
                         Role.CONSULT.value))
         conn.commit()
         print("Consultant added")
-        logger.log_activity(f"{self.username}", "Add Consultant", f"Added consultant with username {new_consultant.username}")
+        logger.log_activity(f"{self[3]}", "Add Consultant", f"Added consultant with username {new_consultant.username}")
 
         cursor.close()
         db.close_connection(conn)
@@ -93,7 +93,7 @@ class SystemAdmin(Consultant):
         db.close_connection(conn)        
         
         print(f"\nThe field {field_name} has been updated")
-        logger.log_activity(f"{self.username}", "Modify Consultant Info", f"Modified consultant with ID {consultant_id}'s {field_name} to {new_value}")
+        logger.log_activity(f"{self[3]}", "Modify Consultant Info", f"Modified consultant with ID {consultant_id}'s {field_name} to {new_value}")
 
     def delete_consultant(self, consultant_id):
         db = db_connection("src/um.db")
@@ -110,10 +110,10 @@ class SystemAdmin(Consultant):
             cursor.execute("DELETE FROM users WHERE id = ?", (consultant_id,))
             conn.commit()
             print(f"\nConsultant with ID '{consultant_id}' deleted successfully.")
-            logger.log_activity(f"{self.username}", "Delete Consultant", f"Deleted consultant with ID {consultant_id}")
+            logger.log_activity(f"{self[3]}", "Delete Consultant", f"Deleted consultant with ID {consultant_id}")
         else:
-            print(f"\nUser with ID '{consultant_id}' is not a system admin or does not exist.")
-            logger.log_activity(f"{self.username}", "Delete Consultant", f"Failed to delete consultant with ID {consultant_id}")
+            print(f"\nUser with ID '{consultant_id}' is not a consultant or does not exist.")
+            logger.log_activity(f"{self[3]}", "Delete Consultant", f"Failed to delete consultant with ID {consultant_id}")
             cursor.close()
             db.close_connection(conn)
 
@@ -133,11 +133,11 @@ class SystemAdmin(Consultant):
 
             conn.commit()
             print(f"The password for the consultant with ID '{consultant_id}' has been reset")
-            logger.log_activity(f"{self.username}", "Reset Consultant Password", f"Reset consultant with ID {consultant_id}'s password")
+            logger.log_activity(f"{self[3]}", "Reset Consultant Password", f"Reset consultant with ID {consultant_id}'s password")
 
         else:
             print(f"\nUser with ID '{consultant_id}' is not a consultant or does not exist.")
-            logger.log_activity(f"{self.username}", "Reset Consultant Password", f"Failed to reset consultant with ID {consultant_id}")
+            logger.log_activity(f"{self[3]}", "Reset Consultant Password", f"Failed to reset consultant with ID {consultant_id}")
 
         cursor.close()
         db.close_connection(conn)
@@ -167,11 +167,11 @@ class SystemAdmin(Consultant):
             cursor.execute("DELETE FROM addresses WHERE id = ?", (address_id,))
             conn.commit()
             print(f"\nMember with ID '{member_id}' deleted successfully.")
-            logger.log_activity(f"{self.username}", "Delete Member", f"Deleted member with ID {member_id}")
+            logger.log_activity(f"{self[3]}", "Delete Member", f"Deleted member with ID {member_id}")
 
         else:
             print(f"\nMember with ID '{member_id}' not found.")
-            logger.log_activity(f"{self.username}", "Delete Member", f"Failed to delete member with ID {member_id}")
+            logger.log_activity(f"{self[3]}", "Delete Member", f"Failed to delete member with ID {member_id}")
 
         cursor.close()
         db.close_connection(conn)
