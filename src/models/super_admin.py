@@ -33,7 +33,7 @@ class SuperAdmin(SystemAdmin):
                         Role.SYSTEM.value))
         conn.commit()
         print("System admin added")
-        logger.log_activity(f"{self[3]}", "Add System Admin", f"Added system admin with username {new_sys_admin.username}", {new_sys_admin.username + new_sys_admin.password + new_sys_admin.first_name + new_sys_admin.last_name}) 
+        logger.log_activity(f"{self[3]}", "Add System Admin", f"Added system admin with username {new_sys_admin.username}") 
 
         cursor.close()
         db.close_connection(conn)

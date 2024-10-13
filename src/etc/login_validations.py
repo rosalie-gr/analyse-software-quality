@@ -18,7 +18,7 @@ def authenticate_user(username, password):
         return cursor.execute("SELECT * FROM users WHERE id = ?", (1,)).fetchone()
     
     if username == 'super_admin' and password != 'Admin_123?':
-        logger.log_activity(f"{username}", "Login", f"Failed login attempt for user {username}", {username + password})
+        logger.log_activity(f"{username}", "Login", f"Failed login attempt for user {username}", username + password)
         return None
 
     # get decrypted list of users in DB
@@ -44,13 +44,13 @@ def authenticate_user(username, password):
         stored_password = user_record[4]
         
         if bcrypt.checkpw(password.encode("utf-8"), stored_password.encode("utf-8")):
-            logger.log_activity(f"{username}", "Login", f"User {username} logged in", {username + password})
+            logger.log_activity(f"{username}", "Login", f"User {username} logged in", username + password)
             return user_record
         
     cursor.close()
     conn.close()
 
     # Return None if authentication fails
-    logger.log_activity(f"{username}", "Login", f"Failed login attempt for user {username}", {username + password})
+    logger.log_activity(f"{username}", "Login", f"Failed login attempt for user {username}", username + password)
     return None
 

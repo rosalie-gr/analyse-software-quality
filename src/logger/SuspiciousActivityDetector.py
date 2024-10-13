@@ -8,7 +8,7 @@ class SuspiciousActivityDetector:
         self.log_data = logs  # Store log data
     
     def check_SQL_injection_attempt(self, input_string):
-        if re.search(r'(;|--| )', input_string):
+        if re.search(r'(;|--)', input_string):
             return True
         
     def shell_injection_attempt(self, input_string):
