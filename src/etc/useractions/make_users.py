@@ -17,7 +17,6 @@ class Make_users:
         if not age: return False
         age = int(age)
 
-        print("je moeder")
         gender = v.get_enum_input("Gender: ",Gender, 3)
         if not gender: return False
 
