@@ -54,6 +54,9 @@ class Make_users:
 
         username = v.get_valid_input(v.validate_username, "Username: ", False)
         if not username: return False
+        unique = User.check_username(username)
+        if not unique:
+            return False
 
         password = v.get_valid_input(v.validate_password, "Password: ", False)
         if not password: return False
@@ -71,6 +74,9 @@ class Make_users:
 
         username = v.get_valid_input(v.validate_username, "Username: ", False)
         if not username: return False
+        unique = User.check_username(username)
+        if not unique:
+            return False
 
         password = v.get_valid_input(v.validate_password, "Password: ", False)
         if not password: return False

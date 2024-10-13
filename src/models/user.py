@@ -84,3 +84,18 @@ class User:
             return user
         else:
             print("User not found")
+    
+    def check_username(username: str):
+        db = db_connection("src/um.db")
+        conn = db.create_connection()
+        cursor = conn.cursor()
+        
+        query = "SELECT username FROM users"
+        result = cursor.execute(query)
+        result = result.fetchall()
+        for row in result:
+            if row[0] != 'super_admin':
+                if database_encryption.decrypt_data(row[0]) == username:
+                    print("Username already exists.")
+                    return False
+        return True

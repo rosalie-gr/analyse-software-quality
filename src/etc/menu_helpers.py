@@ -17,15 +17,12 @@ class MenuManager:
             case '1':
                 SystemAdmin.add_consultant(user)
             case '2':
-                print("choice which consultant you want to update")
+                print("choose which consultant you want to update")
                 user_list = SystemAdmin.list_users()
                 MenuManager.print_user_list_role(user_list, 0)
                 consultant_id = v.get_valid_input(v.number_check, 
                                                   "Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", False)
                 if consultant_id == '0':
-                    return
-                if consultant_id == False:
-                    print("Too many wrong attempts, going back to main menu")
                     return
                 
                 # maybe still need to add a check if its a consultant
@@ -33,9 +30,9 @@ class MenuManager:
                 print(consultant.first_name, consultant.last_name, consultant.username, consultant.password)
 
                 result = Update_users.update_consultant(consultant)
-                if result is None:
-                    print("Not a valid field. going back to main menu")
-                    return
+                # if result is None:
+                #     print("Not a valid field. going back to main menu")
+                #     return
                 field_name, new_value = result
 
                 SystemAdmin.modify_consultant_info(user, consultant_id, field_name, new_value)
@@ -53,9 +50,6 @@ class MenuManager:
                 consultant_id = v.get_valid_input(v.number_check, 
                                                   "Enter the ID of the consultant you want to update, or enter 0 to go back to the main menu: ", False)
                 if consultant_id == '0':
-                    return
-                if consultant_id == False:
-                    print("Too many wrong attempts, going back to main menu")
                     return
                 SystemAdmin.delete_consultant(user, consultant_id)
             case '5':
@@ -77,20 +71,18 @@ class MenuManager:
             case '1':
                 Consultant.add_member(user)
             case '2':
-                print("choice which member you want to update")
-                member_list = Consultant.list_members(user)
+                print("choose which member you want to update")
+                member_list = Consultant.list_members()
                 MenuManager.print_members(member_list)
                 member_id = v.get_valid_input(v.number_check, 
                                                   "Enter the ID of the member you want to update, or enter 0 to go back to the main menu: ", False)
                 if member_id == '0':
                     return
                 
-                member = Consultant.search_member(user, member_id)
+                member = Consultant.search_member(user, member_id)                                    
+                       
                 result = Update_users.update_member(member)
 
-                if result is None:
-                    print("Not a valid field, going back to main menu")
-                    return
                 field_name, new_value = result
 
                 Consultant.update_member(user, member_id, field_name, new_value)
@@ -103,7 +95,7 @@ class MenuManager:
                 found_members = SuperAdmin.search_member(user, search_key)
                 MenuManager.print_members(found_members)
             case '4':
-                print("choice which member you want to delete")
+                print("choose which member you want to delete")
                 # get & print list of all members
                 member_list = Consultant.list_members(user)
                 MenuManager.print_members(member_list)

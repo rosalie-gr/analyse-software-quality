@@ -73,7 +73,7 @@ class Consultant(User):
         # Check if the field is an address field since addresses & member info are two seperate tables
         if field_name in {"street_name", "house_num", "zip_code", "city"}:
             # Get the member details to retrieve address_id
-            member = self.search_member(member_id)
+            member = Consultant.search_member(member_id)
             if member:
                 address_id = member[0][6]  # Access the address_id from the first member entry
                 query = f"UPDATE addresses SET {field_name} = ? WHERE id = ?"
@@ -106,7 +106,7 @@ class Consultant(User):
         print(f"\nThe field {field_name} has been updated")
 
 
-    def list_members(self):
+    def list_members():
         db = db_connection("src/um.db")
 
         conn = db.create_connection()
@@ -155,8 +155,7 @@ class Consultant(User):
         conn = db.create_connection()
         cursor = conn.cursor()
         
-        member_list = self.list_members(self)
-        address_list = self.list_addresses()
+        member_list = Consultant.list_members()
 
         search_key_lower = search_key.lower()
 
@@ -174,7 +173,7 @@ class Consultant(User):
             
             # if search_key isnt found in members table, check the linked address in the addresses table
             if not match_found:
-                address = self.find_address(member['Address ID'])  # Get the member's address
+                address = Consultant.find_address(self, member['Address ID'])  # Get the member's address
                 if address:
                     for key, value in address.items():
                         if isinstance(value, str) and search_key_lower in value:
@@ -183,7 +182,7 @@ class Consultant(User):
             
             # if a match is found, add member info and their address info to the result
             if match_found:
-                address = self.find_address(member['Address ID'])  # Get the member's address
+                address = Consultant.find_address(self, member['Address ID'])  # Get the member's address
                 if address:
                     # Merge member and address dictionaries
                     member_with_address = {**member, **address}  # Combine member and address into one dictionary
