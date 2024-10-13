@@ -7,57 +7,57 @@ from models.user import User
 class Make_users:
     def make_member():
         print("Enter member details:")
-        first_name = v.get_valid_input(v.name_check, "First name: ", False, True)
+        first_name = v.get_valid_input(v.name_check, "First name: ", False, True, 3, True)
         if not first_name: return False
 
-        last_name = v.get_valid_input(v.name_check, "Last name: ", False, True)
+        last_name = v.get_valid_input(v.name_check, "Last name: ", False, True, 3, True)
         if not last_name: return False
 
-        age = v.get_valid_input(v.number_check, "Age: ", False, True)
+        age = v.get_valid_input(v.number_check, "Age: ", False, True, 3, True)
         if not age: return False
         age = int(age)
 
-        gender = v.get_enum_input("Gender: ",Gender, 3)
+        gender = v.get_enum_input("Gender: ",Gender, 90)
         if not gender: return False
 
-        weight = v.get_valid_input(v.number_check, "Weight: ", False, True)
+        weight = v.get_valid_input(v.number_check, "Weight: ", False, True, 3, True)
         if not weight: return False
 
-        street_name = v.get_valid_input(v.name_check, "Street name: ", False, True)
+        street_name = v.get_valid_input(v.name_check, "Street name: ", False, True, 3, True)
         if not street_name: return False
 
-        house_number = v.get_valid_input(v.number_check, "House number: ", False, True)
+        house_number = v.get_valid_input(v.number_check, "House number: ", False, True, 3, True)
         if not house_number: return False
 
-        zip_code = v.get_valid_input(v.zip_code_check, "Zip code: ", False, True)
+        zip_code = v.get_valid_input(v.zip_code_check, "Zip code: ", False, True, 3, True)
         if not zip_code: return False
 
         city = v.get_enum_input("City: ",City, 3)
         if not city: return False
 
-        email = v.get_valid_input(v.email_check, "Email: ", False, True)
+        email = v.get_valid_input(v.email_check, "Email: ", False, True, 3, True)
         if not email: return False
 
-        mobile_phone = v.get_valid_input(v.phone_check, "Mobile phone: ", False, True)
+        mobile_phone = v.get_valid_input(v.phone_check, "Mobile phone: ", False, True, 3, True)
         if not mobile_phone: return False
         
         return first_name, last_name, age, gender, weight, street_name, house_number, zip_code, city, email, mobile_phone
 
     def make_Consultant():
         print("Enter Consultant details")
-        first_name = v.get_valid_input(v.name_check, "First name: ", False, True)
+        first_name = v.get_valid_input(v.name_check, "First name: ", False, True, 3, True)
         if not first_name: return False
 
-        last_name = v.get_valid_input(v.name_check, "Last name: ", False, True)
+        last_name = v.get_valid_input(v.name_check, "Last name: ", False, True, 3, True)
         if not last_name: return False
 
-        username = v.get_valid_input(v.validate_username, "Username: ", False, True)
+        username = v.get_valid_input(v.validate_username, "Username: ", False, True, 3, True)
         if not username: return False
         unique = User.check_username(username)
         if not unique:
             return False
 
-        password = v.get_valid_input(v.validate_password, "Password: ", False, True)
+        password = v.get_valid_input(v.validate_password, "Password: ", False, True, 3, True)
         if not password: return False
 
         cons = User(first_name, last_name, username, password, 0)
@@ -65,19 +65,19 @@ class Make_users:
 
     def make_Sys_Admin():
         print("Enter system admin details")
-        first_name = v.get_valid_input(v.name_check, "First name: ", False, True)
+        first_name = v.get_valid_input(v.name_check, "First name: ", False, True, 3, True)
         if not first_name: return False
 
-        last_name = v.get_valid_input(v.name_check, "Last name: ", False, True)
+        last_name = v.get_valid_input(v.name_check, "Last name: ", False, True, 3, True)
         if not last_name: return False
 
-        username = v.get_valid_input(v.validate_username, "Username: ", False, True)
+        username = v.get_valid_input(v.validate_username, "Username: ", False, True, 3, True)
         if not username: return False
         unique = User.check_username(username)
         if not unique:
             return False
 
-        password = v.get_valid_input(v.validate_password, "Password: ", False, True)
+        password = v.get_valid_input(v.validate_password, "Password: ", False, True, 3, True)
         if not password: return False
 
         sys = User(first_name, last_name, username, password, 1)
