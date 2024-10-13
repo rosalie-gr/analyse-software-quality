@@ -34,7 +34,7 @@ class Update_users:
         field_name, validation_func, _ = fields[field_choice]
         
         if field_choice in ["4", "9"]:  # Enum fields
-            new_value = v.get_enum_input(validation_func, f"Enter new {field_name}: ", False )
+            new_value = v.get_enum_input(f"Enter new {field_name}: ", validation_func, 3)
         else:
             new_value = v.get_valid_input(validation_func, f"Enter new {field_name}: ", False)
         

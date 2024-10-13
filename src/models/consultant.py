@@ -73,9 +73,9 @@ class Consultant(User):
         # Check if the field is an address field since addresses & member info are two seperate tables
         if field_name in {"street_name", "house_num", "zip_code", "city"}:
             # Get the member details to retrieve address_id
-            member = Consultant.search_member(member_id)
+            member = Consultant.search_member_id(self, member_id)
             if member:
-                address_id = member[0][6]  # Access the address_id from the first member entry
+                address_id = member["Address ID"]  # Access the address_id from the first member entry
                 query = f"UPDATE addresses SET {field_name} = ? WHERE id = ?"
             else:
                 print(f"No member found with ID {member_id}")
