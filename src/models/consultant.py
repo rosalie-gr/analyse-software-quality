@@ -6,6 +6,7 @@ from etc.useractions.make_users import Make_users
 from etc.useractions.update_users import Update_users
 from etc.encryption.database_encryption import database_encryption
 from etc.member_helpers import member_helper
+import logger.logger as logger
 
 class Consultant(User):
     def __init__(self, first_name: str, last_name: str, username: str, password: str):
@@ -15,6 +16,7 @@ class Consultant(User):
         new_member = Make_users.make_member()
         if not new_member:
             print("Member not added, returning to main menu.")
+            logger.log_activity(f"{self.username}", "Add Member", "Failed to add member because it already exists", False)
             return
         
         # Create new member and address objects
@@ -61,6 +63,7 @@ class Consultant(User):
         print("Member added successfully.")
         cursor.close()
         db.close_connection(conn)
+        logger.log_activity(f"{self.username}", "Add Member", f"Added member with ID {member.membership_id}")
 
     def update_member(self, member_id: str, field_name: str, new_value: str):
         db = db_connection("src/um.db")
@@ -104,6 +107,7 @@ class Consultant(User):
         db.close_connection(conn)
 
         print(f"\nThe field {field_name} has been updated")
+        logger.log_activity(f"{self.username}", "Update Member", f"Updated member with ID {member_id}'s {field_name} to {new_value}")
 
 
     def list_members():
@@ -157,6 +161,8 @@ class Consultant(User):
         member_list = Consultant.list_members()
         search_key_lower = search_key.lower()
         search_results = []
+
+        logger.log_activity(f"{self.username}", "Search Member", f"Searched for members with key {search_key}")
         
         # Check members & addresses tables
         for member in member_list:

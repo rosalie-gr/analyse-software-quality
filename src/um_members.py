@@ -20,6 +20,7 @@ from models.member import Member, Address
 from models.user import User
 from etc.encryption.database_encryption import database_encryption
 from etc.useractions.update_users import Update_users
+from logger.logger import logger
 
 database.db_setup.db_setup("src/um.db")
 import models.user
@@ -83,9 +84,11 @@ def super_admin_actions(user, choice):
                 case '6':
                     backup_system.restore_backup(user)
                 case '7':
-                    view_logs(user)
+                    logger.pretty_logs_display()
+                    logger.log_activity(user[1], "View Logs", "Viewed logs")
                 case '0':
                     print("Logging out")
+                    logger.log_activity(user[1], "Logged out", "Logged out")
                 case 'E':
                     # Logger.log_activity(user.username, "Exited the system", "System exited", False)
                     print("Exiting the system")
@@ -106,11 +109,13 @@ def system_admin_actions(user, choice):
                 case '5':
                     backup_system.restore_backup(user)
                 case '6':
-                    view_logs(user)
+                    logger.pretty_logs_display()
+                    logger.log_activity(user[1], "View Logs", "Viewed logs")
                 case '7':
                     SuperAdmin.change_password(user)
                 case '0':
                     print("Logging out")
+                    logger.log_activity(user[1], "Logged out", "Logged out")
                 case 'E':
                     print("Exiting the system")
                     exit()
@@ -157,6 +162,7 @@ def consultant_actions(user, choice):
                         Consultant.change_password(user)
                     case '0':
                         print("Logging out")
+                        logger.log_activity(user[1], "Logged out", "Logged out")
                     case 'E':
                         print("Exiting the system")
                         exit()
@@ -173,6 +179,7 @@ def main():
         user = authenticate_user(username, password)
 
         if user:
+            
             if user[3] == 'super_admin':
                 print(f"\nWelcome, {user[1]} {user[2]}")
             else:
