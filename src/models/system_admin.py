@@ -144,7 +144,7 @@ class SystemAdmin(Consultant):
         pass
 
     def delete_member(self, member_id, address_id):
-        db = db_connection("um.db")
+        db = db_connection("src/um.db")
 
         conn = db.create_connection()
         cursor = conn.cursor()

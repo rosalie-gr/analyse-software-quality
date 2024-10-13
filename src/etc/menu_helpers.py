@@ -105,7 +105,7 @@ class MenuManager:
             case '4':
                 print("choose which member you want to delete")
                 # get & print list of all members
-                member_list = Consultant.list_members(user)
+                member_list = Consultant.list_members()
                 MenuManager.print_members(member_list)
 
                 # get input for a member ID to delete it
