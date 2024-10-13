@@ -6,40 +6,6 @@ from models.consultant import Consultant
 import etc.validation_layer as v
 from logger.logger import logger
 
-# def check_if_temp_pass(username):
-#     db = db_connection("src/um.db")
-#     conn = db.create_connection()
-#     cursor = conn.cursor()
-
-#     cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-#     user_record = cursor.fetchone()
-
-#     if user_record:
-#         db_password_hash = user_record[4]  
-
-#         temp_password = "Temp_password!"
-#         if bcrypt.checkpw(temp_password.encode(), db_password_hash.encode()): 
-#             print("Your password has been reset. Please change your password.")
-#             new_password = input("Enter new password: ")
-#             is_valid = v.validate_password(new_password)
-#             if not is_valid:
-#                 print("Invalid password.")
-#                 return None
-#             consult = Consultant(user_record[1], user_record[2], user_record[3], new_password)
-#             Consultant.change_password(consult, new_password)
-#             print("Log in again with your new password.")
-#             return True
-#     else:
-#         # User not found in the database
-#         return False
-
-#     cursor.close()
-#     conn.close()
-
-#     # Return None if authentication fails
-#     return None
-
-
 def authenticate_user(username, password):
     db = db_connection("src/um.db")
     conn = db.create_connection()
@@ -74,13 +40,13 @@ def authenticate_user(username, password):
         stored_password = user_record[4]
         
         if bcrypt.checkpw(password.encode("utf-8"), stored_password.encode("utf-8")):
-            logger.log_activity("super_admin", "Login", f"User {username} logged in")
+            logger.log_activity(f"{username}", "Login", f"User {username} logged in")
             return user_record
         
     cursor.close()
     conn.close()
 
     # Return None if authentication fails
-    logger.log_activity("super_admin", "Login", f"Failed login attempt for user {username}")
+    logger.log_activity(f"{username}", "Login", f"Failed login attempt for user {username}")
     return None
 

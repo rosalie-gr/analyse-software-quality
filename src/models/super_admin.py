@@ -17,7 +17,7 @@ class SuperAdmin(SystemAdmin):
         new_sys_admin = Make_users.make_Sys_Admin()
         if new_sys_admin == False:
             print("System admin not added, going back to main menu")
-            logger.log_activity(f"{self.username}", "Add System Admin", "Failed to add system admin", False) 
+            logger.log_activity(f"{self[3]}", "Add System Admin", "Failed to add system admin", False) 
             return
         
         # now we need to add it to the database and encrypt
@@ -33,7 +33,7 @@ class SuperAdmin(SystemAdmin):
                         Role.SYSTEM.value))
         conn.commit()
         print("System admin added")
-        logger.log_activity(f"{self.username}", "Add System Admin", f"Added system admin with username {new_sys_admin.username}") # Could be suspicious?
+        logger.log_activity(f"{self[3]}", "Add System Admin", f"Added system admin with username {new_sys_admin.username}") # Could be suspicious?
 
         cursor.close()
         db.close_connection(conn)
@@ -56,7 +56,7 @@ class SuperAdmin(SystemAdmin):
         db.close_connection(conn)        
         
         print(f"\nThe field [{field_name}] has been updated")
-        logger.log_activity(f"{self.username}", "Modify System Admin Info", f"Modified system admin with ID {system_admin_id}'s {field_name} to {new_value}") # Could be suspicious?
+        logger.log_activity(f"{self[3]}", "Modify System Admin Info", f"Modified system admin with ID {system_admin_id}'s {field_name} to {new_value}") # Could be suspicious?
 
     def delete_system_admin(self, system_admin_id):
         db = db_connection("src/um.db")
@@ -73,10 +73,10 @@ class SuperAdmin(SystemAdmin):
             cursor.execute("DELETE FROM users WHERE id = ?", (system_admin_id,))
             conn.commit()
             print(f"\nAdmin with ID '{system_admin_id}' deleted successfully.")
-            logger.log_activity(f"{self.username}", "Delete System Admin", f"Deleted system admin with ID {system_admin_id}") # Could be suspicious?
+            logger.log_activity(f"{self[3]}", "Delete System Admin", f"Deleted system admin with ID {system_admin_id}") # Could be suspicious?
         else:
             print(f"\nUser with ID '{system_admin_id}' is not a system admin or does not exist.")
-            logger.log_activity(f"{self.username}", "Delete System Admin", f"Failed to delete system admin with ID {system_admin_id}") # Could be suspicious?
+            logger.log_activity(f"{self[3]}", "Delete System Admin", f"Failed to delete system admin with ID {system_admin_id}") # Could be suspicious?
             cursor.close()
             db.close_connection(conn)
 
@@ -98,9 +98,9 @@ class SuperAdmin(SystemAdmin):
 
             conn.commit()
             print(f"The password for the system admin with ID '{system_admin_id}' has been reset")
-            logger.log_activity(f"{self.username}", "Reset System Admin Password", f"Reset system admin with ID {system_admin_id}'s password") # Could be suspicious?
+            logger.log_activity(f"{self[3]}", "Reset System Admin Password", f"Reset system admin with ID {system_admin_id}'s password") # Could be suspicious?
         else:
             print(f"\nUser with id '{system_admin_id}' is not a system admin or does not exist.")
-            logger.log_activity(f"{self.username}", "Reset System Admin Password", f"Failed to reset system admin with ID {system_admin_id}'s password")
+            logger.log_activity(f"{self[3]}", "Reset System Admin Password", f"Failed to reset system admin with ID {system_admin_id}'s password")
         cursor.close()
         db.close_connection(conn)
