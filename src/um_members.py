@@ -5,6 +5,7 @@ Dependencies.install_dependencies()
 print("Dependencies installed.")
 
 import database.db_setup
+import getpass
 import models.user
 import bcrypt
 import re
@@ -168,8 +169,8 @@ def main():
 
     #ask user for username and password, check if match in database
     while True:
-        username = v.get_valid_input(v.validate_username, "Enter your username: ", False, False, 3, True)
-        password = input("Enter your password: ")
+        username = input("Enter username: ") 
+        password = getpass.getpass("Enter your password: ")
         user = authenticate_user(username, password)
 
         if user:
