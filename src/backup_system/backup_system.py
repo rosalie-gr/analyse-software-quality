@@ -84,7 +84,7 @@ def restore_backup(user):
             shutil.copy(file_path, DATABASE_FILE)
             print('Database restored successfully.')
         
-        # Restore log files (assuming multiple .csv files might be present)
+        # Restore log files
         elif file.endswith('.csv'):
             log_file_path = os.path.join(LOG_FILES_DIR, os.path.basename(file))
             if os.path.exists(log_file_path):

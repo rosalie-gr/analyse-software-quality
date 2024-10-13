@@ -13,7 +13,6 @@ class db_setup:
         # self.delete_existing_db()
         self.create_tables()
         self.seed_users()
-        # self.seed_members()
 
     def delete_existing_db(self):
         if os.path.exists(self.db_file):
