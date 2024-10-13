@@ -32,7 +32,7 @@ class SuperAdmin(SystemAdmin):
                         new_sys_admin.password, 
                         Role.SYSTEM.value))
         conn.commit()
-        print("Admin added")
+        print("System admin added")
         logger.log_activity(f"{self.username}", "Add System Admin", f"Added system admin with username {new_sys_admin.username}") # Could be suspicious?
 
         cursor.close()
@@ -97,7 +97,7 @@ class SuperAdmin(SystemAdmin):
             cursor.execute(query, (temp_password_hash, system_admin_id))
 
             conn.commit()
-            print(f"The password for the admin with ID '{system_admin_id}' has been reset")
+            print(f"The password for the system admin with ID '{system_admin_id}' has been reset")
             logger.log_activity(f"{self.username}", "Reset System Admin Password", f"Reset system admin with ID {system_admin_id}'s password") # Could be suspicious?
         else:
             print(f"\nUser with id '{system_admin_id}' is not a system admin or does not exist.")
