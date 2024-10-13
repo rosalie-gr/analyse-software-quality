@@ -67,7 +67,7 @@ class Update_users:
         field_name, validation_func, _ = fields[field_choice]
 
         if field_name == "password":
-            new_value = v.prompt_password(validation_func, f"Enter new {field_name}: ", False)
+            new_value = v.prompt_password(f"Enter new {field_name}: ", validation_func, 3)
         else:
             new_value = v.get_valid_input(validation_func, f"Enter new {field_name}: ", False)
         
@@ -101,7 +101,7 @@ class Update_users:
         field_name, validation_func, _ = fields[field_choice]
 
         if field_name == "password":
-            new_value = v.prompt_password(validation_func, f"Enter new {field_name}: ", False)
+            new_value = v.prompt_password(f"Enter new {field_name}: ", validation_func, 3)
         else:
             new_value = v.get_valid_input(validation_func, f"Enter new {field_name}: ", False)
         

@@ -27,7 +27,6 @@ class MenuManager:
                 
                 # maybe still need to add a check if its a consultant
                 consultant = User.search_user(user, consultant_id)
-                print(consultant.first_name, consultant.last_name, consultant.username, consultant.password)
 
                 result = Update_users.update_consultant(consultant)
                 # if result is None:
@@ -150,7 +149,6 @@ class MenuManager:
                 
                 # maybe still need to add a check if its a system admin
                 sys =  User.search_user(user, sys_id)
-                print(sys.first_name, sys.last_name, sys.username, sys.password)
 
                 result = Update_users.update_system_admin(sys)
                 if result is None:

@@ -78,7 +78,7 @@ class SystemAdmin(Consultant):
         query = f"UPDATE users SET {field_name} = ? WHERE id = ?"
 
         new_value = database_encryption.encrypt_data(new_value)
-        print(new_value)
+
         # execute the UPDATE query
         cursor.execute(query, (new_value, consultant_id))
 
@@ -114,7 +114,7 @@ class SystemAdmin(Consultant):
 
         conn = db.create_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT  FRO*M users WHERE id = ?", (consultant_id,))
+        cursor.execute("SELECT * FROM users WHERE id = ?", (consultant_id,))
         result = cursor.fetchone()
         if result and result[5] == 0:
             new_pass = v.get_valid_input(v.validate_password, F"Enter new password for consultant {database_encryption.decrypt_data(result[3])}: ", False)
