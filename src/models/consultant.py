@@ -91,16 +91,16 @@ class Consultant(User):
 
         # Encrypt the new value
         if isinstance(new_value, (Gender, City)):
-            new_value = database_encryption.encrypt_data(new_value.value)
+            new_value_encrypted = database_encryption.encrypt_data(new_value.value)
         else:
-            new_value = database_encryption.encrypt_data(new_value)
+            new_value_encrypted = database_encryption.encrypt_data(new_value)
 
         if address_id:
             # Execute the UPDATE query for address
-            cursor.execute(query, (new_value, address_id))
+            cursor.execute(query, (new_value_encrypted, address_id))
         else:
             # Execute the UPDATE query for member
-            cursor.execute(query, (new_value, member_id))
+            cursor.execute(query, (new_value_encrypted, member_id))
 
         conn.commit()
         cursor.close()

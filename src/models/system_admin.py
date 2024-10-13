@@ -82,10 +82,10 @@ class SystemAdmin(Consultant):
  
         query = f"UPDATE users SET {field_name} = ? WHERE id = ?"
 
-        new_value = database_encryption.encrypt_data(new_value)
+        new_value_encrypted = database_encryption.encrypt_data(new_value)
 
         # execute the UPDATE query
-        cursor.execute(query, (new_value, consultant_id))
+        cursor.execute(query, (new_value_encrypted, consultant_id))
 
         conn.commit()
 
