@@ -125,7 +125,7 @@ def consultant_actions(user, choice):
                     case '1':
                         Consultant.add_member(user)
                     case '2':
-                        print("choose which member you want to update")
+                        print("Choose which member you want to update")
                         member_list = Consultant.list_members()
                         MenuManager.print_members(member_list)
                         member_id = v.get_valid_input(v.number_check, 

@@ -112,7 +112,7 @@ class SystemAdmin(Consultant):
             print(f"\nConsultant with ID '{consultant_id}' deleted successfully.")
             logger.log_activity(f"{self.username}", "Delete Consultant", f"Deleted consultant with ID {consultant_id}")
         else:
-            print(f"\nUser with ID '{consultant_id}' is not a system admin or does not exist.")
+            print(f"\nUser with ID '{consultant_id}' is not a consultant or does not exist.")
             logger.log_activity(f"{self.username}", "Delete Consultant", f"Failed to delete consultant with ID {consultant_id}")
             cursor.close()
             db.close_connection(conn)
