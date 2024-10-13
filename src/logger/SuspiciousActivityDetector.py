@@ -45,15 +45,17 @@ class SuspiciousActivityDetector:
         
         return failed_attempt_count > 5
 
-
     
     def detect_suspicious_activity(self, username, description, additional_info, input=""):
-        if self.check_SQL_injection_attempt(input):
-            return "True - SQL Injection Attempt"
-        elif self.shell_injection_attempt(input):
-            return "True - Shell Injection Attempt"
-        elif self.null_byte_injection_attempt(input):
-            return "True - Null Byte Injection Attempt"
+
+        if input != None and input != False:
+            if self.check_SQL_injection_attempt(input):
+                return "True - SQL Injection Attempt"
+            elif self.shell_injection_attempt(input):
+                return "True - Shell Injection Attempt"
+            elif self.null_byte_injection_attempt(input):
+                return "True - Null Byte Injection Attempt"
+            
         elif self.high_number_of_requests(username):
             return "True - High Number of Requests"
         elif self.high_number_of_failed_attempts(username):
