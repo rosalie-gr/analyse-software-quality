@@ -17,7 +17,7 @@ def get_valid_input(validation_func, prompt="Enter input: ", is_sensitive=True, 
 
         if value == "":
             print("Returning to previous menu...")
-            return None # Return to previous menu if input is empty CHANGE THIS FUNCTION
+            return # Return to previous menu if input is empty CHANGE THIS FUNCTION
         
         # Perform validation
         is_valid, message = validation_func(value)
@@ -86,7 +86,7 @@ def name_check(value):
 
 
 def number_check(value):
-    return validate_with_regex(value, r'^[0-9]*$', "Input must be a number.")
+    return validate_with_regex(value, r'^[0-9]+$', "Input must be a number.")
 
 
 def zip_code_check(value):

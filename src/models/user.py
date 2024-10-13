@@ -84,6 +84,7 @@ class User:
             return user
         else:
             print("User not found")
+            return False
     
     def check_username(username: str):
         db = db_connection("src/um.db")

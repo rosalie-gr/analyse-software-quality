@@ -108,8 +108,7 @@ def system_admin_actions(user, choice):
                 case '6':
                     view_logs(user)
                 case '7':
-                    admin = SystemAdmin(user[0], user[1], user[2], user[3], 0)
-                    SuperAdmin.change_password(admin)
+                    SuperAdmin.change_password(user)
                 case '0':
                     print("Logging out")
                 case 'E':
@@ -125,12 +124,12 @@ def consultant_actions(user, choice):
                         MenuManager.print_members(member_list)
                         member_id = v.get_valid_input(v.number_check, 
                                                         "Enter the ID of the member you want to update, or enter 0 to go back to the main menu: ", False)
-                        if member_id == '0':
+                        if member_id == '0' or member_id == None:
                             return
                         
                         # returns a list
                         member_info = Consultant.search_member_id(user, member_id)
-                        if not member_info:
+                        if not member_info or member_info == None:
                             print("Member not found.")
                             return
                         member_address = Consultant.find_address(user, member_info["Address ID"])
