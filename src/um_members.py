@@ -168,9 +168,8 @@ def main():
 
     #ask user for username and password, check if match in database
     while True:
-        username = input("Enter your username: ")
+        username = v.get_valid_input(v.validate_username, "Enter your username: ", False, False, 3, True)
         password = input("Enter your password: ")
-        # user = models.user.User(username, password)
         user = authenticate_user(username, password)
 
         if user:
